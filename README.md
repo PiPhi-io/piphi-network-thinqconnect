@@ -1,1 +1,85 @@
-# piphi-network-thinqconnect
+# PiPhi LG ThinQ Connect Integration
+
+PiPhi integration for LG ThinQ appliances using the official ThinQ Connect
+Python SDK.
+
+## What this integration does
+
+- discovers devices from a user's LG ThinQ account using a PAT, country code,
+  and optional client id
+- supports configuration, rehydration, and config sync through the PiPhi Python
+  runtime kit
+- normalizes status from many ThinQ device families into a common PiPhi entity
+  model
+- exposes entities, state, events, commands, and UI config endpoints
+- delivers telemetry and runtime events back to PiPhi Core
+- keeps unsupported appliances visible as read-only entities instead of dropping
+  them
+
+## Runtime SDK and testkit
+
+- runtime SDK: `piphi-runtime-kit-python>=0.4.1`
+- ThinQ SDK: `thinqconnect`
+- local test helper: `piphi-runtime-testkit-python`
+
+The ThinQ SDK is imported lazily so tests can run with mocked client calls even
+before the external dependency is installed locally.
+
+## Local development
+
+Install dependencies:
+
+```bash
+pdm install -G dev
+```
+
+Run the runtime:
+
+```bash
+pdm run python -m piphi_network_thinqconnect.app
+```
+
+Run tests:
+
+```bash
+pdm run pytest -q
+```
+
+The integration API defaults to `http://127.0.0.1:3667`.
+
+## Important routes
+
+- `GET /health`
+- `POST /discover`
+- `GET /entities`
+- `GET /state`
+- `POST /command`
+- `POST /config`
+- `POST /configs/sync`
+- `POST /config/sync`
+- `POST /deconfigure`
+- `GET /ui-config`
+- `GET /events`
+- `GET /manifest.json`
+
+## Discovery and onboarding
+
+ThinQ onboarding is account-based. Discovery requires:
+
+- `access_token`
+- `country_code`
+- optional `client_id`
+
+Users discover devices from their ThinQ account first, then save one PiPhi
+runtime config per selected device.
+
+## Polling behavior
+
+Configured devices are polled on a background loop. The default polling
+interval is 60 seconds and can be overridden per config.
+
+## Compatibility notes
+
+This runtime aims for broad device compatibility for discovery and status. Some
+devices will be fully controllable, while others will remain read-only until
+their ThinQ profile exposes a control surface the runtime can map safely.

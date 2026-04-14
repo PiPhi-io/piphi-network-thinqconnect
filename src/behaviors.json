@@ -1,0 +1,1395 @@
+{
+  "devices": [
+    {
+      "id": "thinq_climate_device",
+      "name": "ThinQ Climate Device",
+      "description": "Air conditioners, boilers, water heaters, ventilators, and similar climate or air-treatment devices exposed through LG ThinQ.",
+      "capabilities": [
+        "switch",
+        "temperature",
+        "target_temperature",
+        "humidity",
+        "pm1",
+        "pm2",
+        "pm10",
+        "co2",
+        "mode",
+        "fan_speed",
+        "filter_life",
+        "brightness",
+        "refresh"
+      ],
+      "intents": [
+        {
+          "id": "comfort_control",
+          "label": "Comfort control",
+          "description": "Keep rooms comfortable with temperature, humidity, and mode adjustments."
+        },
+        {
+          "id": "air_quality_management",
+          "label": "Air quality management",
+          "description": "React to particles or CO2 by adjusting fan and operating modes."
+        },
+        {
+          "id": "maintenance_and_visibility",
+          "label": "Maintenance and visibility",
+          "description": "Track filters, displays, and periodic refresh checks."
+        }
+      ],
+      "conditions": [
+        {
+          "id": "temperature_above",
+          "label": "Temperature above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "temperature_below",
+          "label": "Temperature below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "target_temperature_above",
+          "label": "Target temperature above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "target_temperature_below",
+          "label": "Target temperature below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "humidity_above",
+          "label": "Humidity above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "humidity",
+              "label": "Humidity threshold",
+              "type": "number",
+              "required": true,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "humidity_below",
+          "label": "Humidity below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "humidity",
+              "label": "Humidity threshold",
+              "type": "number",
+              "required": true,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "filter_life_below",
+          "label": "Filter life below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "percent",
+              "label": "Remaining filter life",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "air_quality_metric_above",
+          "label": "Air quality metric above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "metric",
+              "label": "Metric",
+              "type": "enum",
+              "required": true,
+              "options": ["pm1", "pm2", "pm10", "co2"]
+            },
+            {
+              "name": "value",
+              "label": "Threshold",
+              "type": "number",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "air_quality_metric_below",
+          "label": "Air quality metric below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "metric",
+              "label": "Metric",
+              "type": "enum",
+              "required": true,
+              "options": ["pm1", "pm2", "pm10", "co2"]
+            },
+            {
+              "name": "value",
+              "label": "Threshold",
+              "type": "number",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "mode_is",
+          "label": "Mode matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "fan_speed_is",
+          "label": "Fan speed matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "speed",
+              "label": "Fan speed",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "brightness_below",
+          "label": "Brightness below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "brightness",
+              "label": "Brightness threshold",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "turn_on",
+          "label": "Turn on"
+        },
+        {
+          "id": "turn_off",
+          "label": "Turn off"
+        },
+        {
+          "id": "toggle",
+          "label": "Toggle power"
+        },
+        {
+          "id": "set_mode",
+          "label": "Set mode",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "set_target_temperature",
+          "label": "Set target temperature",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "set_target_humidity",
+          "label": "Set target humidity",
+          "params": [
+            {
+              "name": "humidity",
+              "label": "Target humidity",
+              "type": "number",
+              "required": true,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "set_fan_speed",
+          "label": "Set fan speed",
+          "params": [
+            {
+              "name": "speed",
+              "label": "Fan speed",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "set_brightness",
+          "label": "Set display brightness",
+          "params": [
+            {
+              "name": "brightness",
+              "label": "Brightness",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "refresh",
+          "label": "Refresh state"
+        }
+      ],
+      "stop": [
+        {
+          "id": "turn_off",
+          "label": "Turn off"
+        }
+      ],
+      "manualOverride": [
+        {
+          "id": "pause_automation",
+          "label": "Pause automation temporarily",
+          "description": "Treat a manual device change as an override and stop further automatic actions for a while.",
+          "type": "duration",
+          "params": [
+            {
+              "name": "duration_minutes",
+              "label": "Pause duration",
+              "type": "number",
+              "required": true,
+              "default": 30,
+              "min": 1,
+              "max": 1440,
+              "unit": "min"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thinq_refrigerator",
+      "name": "ThinQ Refrigerator",
+      "description": "LG refrigerators, kimchi refrigerators, and wine storage devices exposed through LG ThinQ.",
+      "capabilities": [
+        "door",
+        "temperature",
+        "target_temperature",
+        "filter_life",
+        "mode",
+        "power",
+        "switch",
+        "refresh"
+      ],
+      "intents": [
+        {
+          "id": "food_preservation",
+          "label": "Food preservation",
+          "description": "Adjust refrigeration settings to protect stored food and beverages."
+        },
+        {
+          "id": "maintenance_reminders",
+          "label": "Maintenance reminders",
+          "description": "Track filters, door state, and freshness-related refrigerator signals."
+        },
+        {
+          "id": "special_mode_management",
+          "label": "Special mode management",
+          "description": "Manage power save, eco, express, freeze, and sabbath modes."
+        }
+      ],
+      "conditions": [
+        {
+          "id": "door_open",
+          "label": "Door is open",
+          "type": "boolean"
+        },
+        {
+          "id": "door_open_for_duration",
+          "label": "Door is open for a duration",
+          "type": "duration",
+          "params": [
+            {
+              "name": "minutes",
+              "label": "Open duration",
+              "type": "number",
+              "required": true,
+              "min": 1,
+              "max": 1440,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "id": "door_closed",
+          "label": "Door is closed",
+          "type": "boolean"
+        },
+        {
+          "id": "filter_life_below",
+          "label": "Filter life below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "percent",
+              "label": "Remaining filter life",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "target_temperature_above",
+          "label": "Target temperature above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "target_temperature_below",
+          "label": "Target temperature below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "mode_is",
+          "label": "Mode matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "power_save_enabled",
+          "label": "Power save is enabled",
+          "type": "boolean"
+        },
+        {
+          "id": "eco_friendly_enabled",
+          "label": "Eco friendly mode is enabled",
+          "type": "boolean"
+        },
+        {
+          "id": "express_mode_enabled",
+          "label": "Express mode is enabled",
+          "type": "boolean"
+        },
+        {
+          "id": "rapid_freeze_enabled",
+          "label": "Rapid freeze is enabled",
+          "type": "boolean"
+        },
+        {
+          "id": "sabbath_mode_enabled",
+          "label": "Sabbath mode is enabled",
+          "type": "boolean"
+        }
+      ],
+      "actions": [
+        {
+          "id": "set_target_temperature",
+          "label": "Set target temperature",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "enable_power_save",
+          "label": "Enable power save"
+        },
+        {
+          "id": "disable_power_save",
+          "label": "Disable power save"
+        },
+        {
+          "id": "enable_eco_friendly",
+          "label": "Enable eco friendly mode"
+        },
+        {
+          "id": "disable_eco_friendly",
+          "label": "Disable eco friendly mode"
+        },
+        {
+          "id": "enable_express_mode",
+          "label": "Enable express mode"
+        },
+        {
+          "id": "disable_express_mode",
+          "label": "Disable express mode"
+        },
+        {
+          "id": "enable_rapid_freeze",
+          "label": "Enable rapid freeze"
+        },
+        {
+          "id": "disable_rapid_freeze",
+          "label": "Disable rapid freeze"
+        },
+        {
+          "id": "enable_sabbath_mode",
+          "label": "Enable sabbath mode"
+        },
+        {
+          "id": "disable_sabbath_mode",
+          "label": "Disable sabbath mode"
+        },
+        {
+          "id": "refresh",
+          "label": "Refresh state"
+        }
+      ],
+      "stop": [
+        {
+          "id": "disable_express_mode",
+          "label": "Disable express mode"
+        },
+        {
+          "id": "disable_rapid_freeze",
+          "label": "Disable rapid freeze"
+        },
+        {
+          "id": "disable_sabbath_mode",
+          "label": "Disable sabbath mode"
+        }
+      ],
+      "manualOverride": [
+        {
+          "id": "pause_automation",
+          "label": "Pause refrigerator automation",
+          "type": "duration",
+          "params": [
+            {
+              "name": "duration_minutes",
+              "label": "Pause duration",
+              "type": "number",
+              "required": true,
+              "default": 60,
+              "min": 1,
+              "max": 2880,
+              "unit": "min"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thinq_laundry_appliance",
+      "name": "ThinQ Laundry Appliance",
+      "description": "Washers, dryers, dishwashers, stylers, and similar laundry-oriented devices exposed through LG ThinQ.",
+      "capabilities": [
+        "switch",
+        "mode",
+        "door",
+        "refresh"
+      ],
+      "intents": [
+        {
+          "id": "laundry_cycle_management",
+          "label": "Laundry cycle management",
+          "description": "Start, stop, pause, or reconfigure appliance cycles."
+        },
+        {
+          "id": "remote_start_enablement",
+          "label": "Remote start enablement",
+          "description": "Enable or disable remote control before automation takes over."
+        },
+        {
+          "id": "cycle_recovery",
+          "label": "Cycle recovery",
+          "description": "Recover from interruptions or hold a cycle until safe conditions return."
+        },
+        {
+          "id": "completion_and_alerting",
+          "label": "Completion and alerting",
+          "description": "Watch for finished or nearly finished cycles and react safely."
+        }
+      ],
+      "conditions": [
+        {
+          "id": "mode_is",
+          "label": "Current mode matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "door_open",
+          "label": "Door is open",
+          "type": "boolean"
+        },
+        {
+          "id": "door_open_for_duration",
+          "label": "Door is open for a duration",
+          "type": "duration",
+          "params": [
+            {
+              "name": "minutes",
+              "label": "Open duration",
+              "type": "number",
+              "required": true,
+              "min": 1,
+              "max": 720,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "id": "door_closed",
+          "label": "Door is closed",
+          "type": "boolean"
+        },
+        {
+          "id": "remote_control_enabled",
+          "label": "Remote control is enabled",
+          "type": "boolean"
+        },
+        {
+          "id": "remote_control_disabled",
+          "label": "Remote control is disabled",
+          "type": "boolean"
+        },
+        {
+          "id": "cycle_running",
+          "label": "Cycle is running",
+          "type": "boolean"
+        },
+        {
+          "id": "cycle_paused",
+          "label": "Cycle is paused",
+          "type": "boolean"
+        },
+        {
+          "id": "cycle_complete",
+          "label": "Cycle is complete",
+          "type": "boolean"
+        },
+        {
+          "id": "remaining_time_below",
+          "label": "Remaining time below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "minutes",
+              "label": "Remaining minutes",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "id": "remaining_time_above",
+          "label": "Remaining time above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "minutes",
+              "label": "Remaining minutes",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "unit": "min"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "start",
+          "label": "Start cycle"
+        },
+        {
+          "id": "pause",
+          "label": "Pause cycle"
+        },
+        {
+          "id": "stop",
+          "label": "Stop cycle"
+        },
+        {
+          "id": "set_course",
+          "label": "Set course",
+          "params": [
+            {
+              "name": "course",
+              "label": "Course",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "enable_remote_control",
+          "label": "Enable remote control"
+        },
+        {
+          "id": "disable_remote_control",
+          "label": "Disable remote control"
+        },
+        {
+          "id": "refresh",
+          "label": "Refresh state"
+        }
+      ],
+      "stop": [
+        {
+          "id": "stop",
+          "label": "Stop cycle"
+        },
+        {
+          "id": "disable_remote_control",
+          "label": "Disable remote control"
+        }
+      ],
+      "manualOverride": [
+        {
+          "id": "pause_automation",
+          "label": "Pause laundry automation",
+          "type": "duration",
+          "params": [
+            {
+              "name": "duration_minutes",
+              "label": "Pause duration",
+              "type": "number",
+              "required": true,
+              "default": 45,
+              "min": 1,
+              "max": 1440,
+              "unit": "min"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thinq_kitchen_appliance",
+      "name": "ThinQ Kitchen Appliance",
+      "description": "Hoods, ovens, microwaves, cooktops, and similar kitchen devices exposed through LG ThinQ.",
+      "capabilities": [
+        "switch",
+        "mode",
+        "fan_speed",
+        "brightness",
+        "temperature",
+        "target_temperature",
+        "refresh"
+      ],
+      "intents": [
+        {
+          "id": "kitchen_ventilation_and_cooking",
+          "label": "Kitchen ventilation and cooking",
+          "description": "Control hood, oven, microwave, and cook-focused settings."
+        },
+        {
+          "id": "preheat_and_hold",
+          "label": "Preheat and hold",
+          "description": "Use thresholds and modes to drive cooking or ventilation readiness."
+        },
+        {
+          "id": "remote_ready_cooking",
+          "label": "Remote-ready cooking",
+          "description": "Enable remote-control-dependent cooking flows before sending commands."
+        },
+        {
+          "id": "lighting_and_vent_reaction",
+          "label": "Lighting and vent reaction",
+          "description": "Coordinate hood lighting, brightness, and fan speed with kitchen activity."
+        }
+      ],
+      "conditions": [
+        {
+          "id": "mode_is",
+          "label": "Current mode matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "temperature_above",
+          "label": "Temperature above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "temperature_below",
+          "label": "Temperature below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "target_temperature_above",
+          "label": "Target temperature above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "remaining_time_below",
+          "label": "Remaining time below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "minutes",
+              "label": "Remaining minutes",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "id": "brightness_above",
+          "label": "Brightness above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "brightness",
+              "label": "Brightness threshold",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "brightness_below",
+          "label": "Brightness below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "brightness",
+              "label": "Brightness threshold",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "fan_speed_is",
+          "label": "Fan speed matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "speed",
+              "label": "Fan speed",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "cook_mode_is",
+          "label": "Cook mode matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "cook_mode",
+              "label": "Cook mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "remote_control_enabled",
+          "label": "Remote control is enabled",
+          "type": "boolean"
+        },
+        {
+          "id": "remote_control_disabled",
+          "label": "Remote control is disabled",
+          "type": "boolean"
+        }
+      ],
+      "actions": [
+        {
+          "id": "turn_on",
+          "label": "Turn on"
+        },
+        {
+          "id": "turn_off",
+          "label": "Turn off"
+        },
+        {
+          "id": "toggle",
+          "label": "Toggle power"
+        },
+        {
+          "id": "set_mode",
+          "label": "Set mode",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "set_fan_speed",
+          "label": "Set fan speed",
+          "params": [
+            {
+              "name": "speed",
+              "label": "Fan speed",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "set_brightness",
+          "label": "Set brightness",
+          "params": [
+            {
+              "name": "brightness",
+              "label": "Brightness",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "set_target_temperature",
+          "label": "Set target temperature",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "set_cook_mode",
+          "label": "Set cook mode",
+          "params": [
+            {
+              "name": "cook_mode",
+              "label": "Cook mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "enable_remote_control",
+          "label": "Enable remote control"
+        },
+        {
+          "id": "disable_remote_control",
+          "label": "Disable remote control"
+        },
+        {
+          "id": "refresh",
+          "label": "Refresh state"
+        }
+      ],
+      "stop": [
+        {
+          "id": "turn_off",
+          "label": "Turn off"
+        },
+        {
+          "id": "disable_remote_control",
+          "label": "Disable remote control"
+        }
+      ],
+      "manualOverride": [
+        {
+          "id": "pause_automation",
+          "label": "Pause kitchen automation",
+          "type": "duration",
+          "params": [
+            {
+              "name": "duration_minutes",
+              "label": "Pause duration",
+              "type": "number",
+              "required": true,
+              "default": 30,
+              "min": 1,
+              "max": 720,
+              "unit": "min"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thinq_vacuum_or_cleaner",
+      "name": "ThinQ Vacuum or Cleaner",
+      "description": "Robot cleaners and similar battery-driven cleaning devices exposed through LG ThinQ.",
+      "capabilities": [
+        "switch",
+        "battery",
+        "mode",
+        "refresh"
+      ],
+      "intents": [
+        {
+          "id": "cleaning_cycle_management",
+          "label": "Cleaning cycle management",
+          "description": "Manage cleaning runs, battery-aware automation, and cleanup behavior."
+        },
+        {
+          "id": "battery_protection",
+          "label": "Battery protection",
+          "description": "Pause or stop work when charge is low and resume later if needed."
+        },
+        {
+          "id": "mode_recovery",
+          "label": "Mode recovery",
+          "description": "Restore the preferred cleaning mode after interruptions or recharge."
+        }
+      ],
+      "conditions": [
+        {
+          "id": "battery_below",
+          "label": "Battery below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "percent",
+              "label": "Battery threshold",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "battery_above",
+          "label": "Battery above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "percent",
+              "label": "Battery threshold",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "mode_is",
+          "label": "Mode matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "cleaning_active",
+          "label": "Cleaning is active",
+          "type": "boolean"
+        },
+        {
+          "id": "cleaning_inactive",
+          "label": "Cleaning is inactive",
+          "type": "boolean"
+        },
+        {
+          "id": "battery_critical",
+          "label": "Battery is critically low",
+          "type": "number",
+          "params": [
+            {
+              "name": "percent",
+              "label": "Critical battery threshold",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "start",
+          "label": "Start cleaning"
+        },
+        {
+          "id": "pause",
+          "label": "Pause cleaning"
+        },
+        {
+          "id": "stop",
+          "label": "Stop cleaning"
+        },
+        {
+          "id": "set_mode",
+          "label": "Set cleaning mode",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "refresh",
+          "label": "Refresh state"
+        }
+      ],
+      "stop": [
+        {
+          "id": "stop",
+          "label": "Stop cleaning"
+        }
+      ],
+      "manualOverride": [
+        {
+          "id": "pause_automation",
+          "label": "Pause cleaner automation",
+          "type": "duration",
+          "params": [
+            {
+              "name": "duration_minutes",
+              "label": "Pause duration",
+              "type": "number",
+              "required": true,
+              "default": 20,
+              "min": 1,
+              "max": 720,
+              "unit": "min"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thinq_specialty_device",
+      "name": "ThinQ Specialty Device",
+      "description": "Plant cultivators, water purifiers, home brewing devices, and other ThinQ device classes that do not fit the main families cleanly.",
+      "capabilities": [
+        "switch",
+        "mode",
+        "brightness",
+        "temperature",
+        "target_temperature",
+        "refresh"
+      ],
+      "intents": [
+        {
+          "id": "specialty_mode_management",
+          "label": "Specialty mode management",
+          "description": "Drive unusual devices through modes, target temperatures, and brightness-like controls."
+        },
+        {
+          "id": "batch_or_cycle_management",
+          "label": "Batch or cycle management",
+          "description": "Handle specialty devices that run named cycles, recipes, or batches."
+        }
+      ],
+      "conditions": [
+        {
+          "id": "mode_is",
+          "label": "Mode matches",
+          "type": "text",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "temperature_above",
+          "label": "Temperature above threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "cycle_running",
+          "label": "Cycle is running",
+          "type": "boolean"
+        },
+        {
+          "id": "remaining_time_below",
+          "label": "Remaining time below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "minutes",
+              "label": "Remaining minutes",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "unit": "min"
+            }
+          ]
+        },
+        {
+          "id": "target_temperature_below",
+          "label": "Target temperature below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature threshold",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "brightness_below",
+          "label": "Brightness below threshold",
+          "type": "number",
+          "params": [
+            {
+              "name": "brightness",
+              "label": "Brightness threshold",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "id": "set_mode",
+          "label": "Set mode",
+          "params": [
+            {
+              "name": "mode",
+              "label": "Mode",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "start",
+          "label": "Start cycle"
+        },
+        {
+          "id": "pause",
+          "label": "Pause cycle"
+        },
+        {
+          "id": "stop",
+          "label": "Stop cycle"
+        },
+        {
+          "id": "set_course",
+          "label": "Set course",
+          "params": [
+            {
+              "name": "course",
+              "label": "Course",
+              "type": "text",
+              "required": true
+            }
+          ]
+        },
+        {
+          "id": "set_brightness",
+          "label": "Set brightness",
+          "params": [
+            {
+              "name": "brightness",
+              "label": "Brightness",
+              "type": "number",
+              "required": true,
+              "min": 0,
+              "max": 100,
+              "unit": "%"
+            }
+          ]
+        },
+        {
+          "id": "set_target_temperature",
+          "label": "Set target temperature",
+          "params": [
+            {
+              "name": "temperature",
+              "label": "Target temperature",
+              "type": "number",
+              "required": true,
+              "unit": "°C"
+            }
+          ]
+        },
+        {
+          "id": "refresh",
+          "label": "Refresh state"
+        }
+      ],
+      "stop": [
+        {
+          "id": "stop",
+          "label": "Stop cycle"
+        }
+      ]
+    }
+  ]
+}

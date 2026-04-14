@@ -1,0 +1,381 @@
+{
+  "manifest_version": "1.0",
+  "id": "lg-thinq-connect-api",
+  "name": "LG ThinQ Connect",
+  "version": "0.1.0",
+  "description": "Integration for LG ThinQ appliances using the official ThinQ Connect Python SDK.",
+  "maintainer": {
+    "name": "PiPhi Network",
+    "website": "https://piphi.io",
+    "support_email": "support@piphi.io"
+  },
+  "platforms": [
+    "linux",
+    "windows",
+    "macos"
+  ],
+  "runtime": {
+    "linux": {
+      "type": "container",
+      "container": {
+        "image": "piphinetwork/lg-thinq-connect",
+        "ports": [
+          {
+            "container": 3667,
+            "host": 3667
+          }
+        ],
+        "environment": {
+          "LOG_LEVEL": "info"
+        },
+        "restart_policy": {
+          "name": "unless-stopped",
+          "maximum_retry_count": 0
+        }
+      },
+      "discovery": {
+        "method": "direct",
+        "inputs": [
+          {
+            "name": "access_token",
+            "label": "Personal Access Token",
+            "type": "password",
+            "secret": true,
+            "required": true,
+            "description": "Personal access token generated from the LG ThinQ Developer portal."
+          },
+          {
+            "name": "country_code",
+            "label": "Country Code",
+            "type": "text",
+            "required": true,
+            "placeholder": "US",
+            "description": "Two-letter ThinQ country code such as US, CA, KR, or GB."
+          },
+          {
+            "name": "client_id",
+            "label": "Client ID (Optional)",
+            "type": "text",
+            "required": false,
+            "description": "Optional UUID-style client id. When omitted, PiPhi generates a stable one automatically."
+          }
+        ]
+      }
+    },
+    "windows": {
+      "type": "proxy",
+      "proxy": {
+        "port": 3667
+      },
+      "discovery": {
+        "method": "proxy",
+        "inputs": [
+          {
+            "name": "access_token",
+            "label": "Personal Access Token",
+            "type": "password",
+            "secret": true,
+            "required": true
+          },
+          {
+            "name": "country_code",
+            "label": "Country Code",
+            "type": "text",
+            "required": true,
+            "placeholder": "US"
+          },
+          {
+            "name": "client_id",
+            "label": "Client ID (Optional)",
+            "type": "text",
+            "required": false
+          }
+        ]
+      }
+    },
+    "macos": {
+      "type": "proxy",
+      "proxy": {
+        "port": 3667
+      },
+      "discovery": {
+        "method": "proxy",
+        "inputs": [
+          {
+            "name": "access_token",
+            "label": "Personal Access Token",
+            "type": "password",
+            "secret": true,
+            "required": true
+          },
+          {
+            "name": "country_code",
+            "label": "Country Code",
+            "type": "text",
+            "required": true,
+            "placeholder": "US"
+          },
+          {
+            "name": "client_id",
+            "label": "Client ID (Optional)",
+            "type": "text",
+            "required": false
+          }
+        ]
+      }
+    }
+  },
+  "api": {
+    "base_url": "http://127.0.0.1:3667",
+    "endpoints": {
+      "health": "/health",
+      "discover": "/discover",
+      "entities": "/entities",
+      "state": "/state",
+      "command": "/command",
+      "config": "/config",
+      "config_sync": "/configs/sync",
+      "deconfigure": "/deconfigure",
+      "ui_config": "/ui-config",
+      "events": "/events"
+    }
+  },
+  "config": {
+    "source": "endpoint",
+    "endpoint": "/ui-config",
+    "required": true
+  },
+  "identity": {
+    "fields": [
+      "device_id"
+    ]
+  },
+  "capabilities": {
+    "switch": {
+      "kind": "switch",
+      "dashboard": {
+        "allowed_widgets": ["tile", "button", "stat"],
+        "default_widget": "tile"
+      }
+    },
+    "temperature": {
+      "kind": "sensor",
+      "unit": "°C",
+      "dashboard": {
+        "allowed_widgets": ["thermostat", "sensor-card", "stat", "line-chart", "gauge"],
+        "default_widget": "sensor-card"
+      }
+    },
+    "target_temperature": {
+      "kind": "sensor",
+      "unit": "°C",
+      "dashboard": {
+        "allowed_widgets": ["thermostat", "stat"],
+        "default_widget": "thermostat"
+      }
+    },
+    "humidity": {
+      "kind": "sensor",
+      "unit": "%",
+      "dashboard": {
+        "allowed_widgets": ["sensor-card", "stat", "line-chart", "gauge"],
+        "default_widget": "sensor-card"
+      }
+    },
+    "pm1": {
+      "kind": "sensor",
+      "dashboard": {
+        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "default_widget": "stat"
+      }
+    },
+    "pm2": {
+      "kind": "sensor",
+      "dashboard": {
+        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "default_widget": "stat"
+      }
+    },
+    "pm10": {
+      "kind": "sensor",
+      "dashboard": {
+        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "default_widget": "stat"
+      }
+    },
+    "co2": {
+      "kind": "sensor",
+      "unit": "ppm",
+      "dashboard": {
+        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "default_widget": "stat"
+      }
+    },
+    "power": {
+      "kind": "sensor",
+      "unit": "W",
+      "dashboard": {
+        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "default_widget": "stat"
+      }
+    },
+    "fan_speed": {
+      "kind": "sensor",
+      "dashboard": {
+        "allowed_widgets": ["tile", "status-list", "stat"],
+        "default_widget": "status-list"
+      }
+    },
+    "mode": {
+      "kind": "sensor",
+      "dashboard": {
+        "allowed_widgets": ["status-list", "stat", "tile"],
+        "default_widget": "status-list"
+      }
+    },
+    "brightness": {
+      "kind": "sensor",
+      "dashboard": {
+        "allowed_widgets": ["light-card", "tile", "stat"],
+        "default_widget": "light-card"
+      }
+    },
+    "door": {
+      "kind": "sensor",
+      "dashboard": {
+        "allowed_widgets": ["status-list", "stat"],
+        "default_widget": "status-list"
+      }
+    },
+    "battery": {
+      "kind": "sensor",
+      "unit": "%",
+      "dashboard": {
+        "allowed_widgets": ["stat", "gauge"],
+        "default_widget": "gauge"
+      }
+    },
+    "filter_life": {
+      "kind": "sensor",
+      "unit": "%",
+      "dashboard": {
+        "allowed_widgets": ["stat", "gauge"],
+        "default_widget": "gauge"
+      }
+    },
+    "refresh": {
+      "kind": "action",
+      "dashboard": {
+        "allowed_widgets": ["button"],
+        "default_widget": "button"
+      }
+    }
+  },
+  "commands": {
+    "refresh": {
+      "description": "Refresh the latest device state from LG ThinQ."
+    },
+    "turn_on": {
+      "description": "Turn a device on when the profile exposes a safe power command."
+    },
+    "turn_off": {
+      "description": "Turn a device off when the profile exposes a safe power command."
+    },
+    "toggle": {
+      "description": "Toggle a device power state when safe support exists."
+    },
+    "set_mode": {
+      "description": "Set a device mode when the ThinQ profile exposes one."
+    },
+    "set_target_temperature": {
+      "description": "Set a target temperature when the ThinQ profile exposes one."
+    },
+    "set_fan_speed": {
+      "description": "Set a fan or wind speed when the ThinQ profile exposes one."
+    },
+    "set_brightness": {
+      "description": "Set a display or light brightness when the ThinQ profile exposes one."
+    },
+    "set_target_humidity": {
+      "description": "Set a target humidity when the ThinQ profile exposes one."
+    },
+    "set_course": {
+      "description": "Set an appliance course or cycle when the ThinQ profile exposes one."
+    },
+    "set_cook_mode": {
+      "description": "Set an oven cook mode when the ThinQ profile exposes one."
+    },
+    "start": {
+      "description": "Start an appliance action when the ThinQ profile exposes one."
+    },
+    "pause": {
+      "description": "Pause an appliance action when the ThinQ profile exposes one."
+    },
+    "stop": {
+      "description": "Stop or cancel an appliance action when the ThinQ profile exposes one."
+    },
+    "enable_power_save": {
+      "description": "Enable refrigerator power save when the ThinQ profile exposes one."
+    },
+    "disable_power_save": {
+      "description": "Disable refrigerator power save when the ThinQ profile exposes one."
+    },
+    "enable_eco_friendly": {
+      "description": "Enable eco-friendly mode when the ThinQ profile exposes one."
+    },
+    "disable_eco_friendly": {
+      "description": "Disable eco-friendly mode when the ThinQ profile exposes one."
+    },
+    "enable_express_mode": {
+      "description": "Enable express mode when the ThinQ profile exposes one."
+    },
+    "disable_express_mode": {
+      "description": "Disable express mode when the ThinQ profile exposes one."
+    },
+    "enable_rapid_freeze": {
+      "description": "Enable rapid freeze when the ThinQ profile exposes one."
+    },
+    "disable_rapid_freeze": {
+      "description": "Disable rapid freeze when the ThinQ profile exposes one."
+    },
+    "enable_sabbath_mode": {
+      "description": "Enable sabbath mode when the ThinQ profile exposes one."
+    },
+    "disable_sabbath_mode": {
+      "description": "Disable sabbath mode when the ThinQ profile exposes one."
+    },
+    "enable_remote_control": {
+      "description": "Enable remote control when the ThinQ profile exposes one."
+    },
+    "disable_remote_control": {
+      "description": "Disable remote control when the ThinQ profile exposes one."
+    }
+  },
+  "entities": [
+    {
+      "id": "generic_switch",
+      "name": "Power",
+      "capabilities": ["switch"]
+    },
+    {
+      "id": "generic_temperature",
+      "name": "Temperature",
+      "capabilities": ["temperature", "target_temperature"]
+    },
+    {
+      "id": "generic_humidity",
+      "name": "Humidity",
+      "capabilities": ["humidity"]
+    },
+    {
+      "id": "generic_mode",
+      "name": "Mode",
+      "capabilities": ["mode", "fan_speed", "brightness"]
+    },
+    {
+      "id": "generic_refresh",
+      "name": "Refresh",
+      "capabilities": ["refresh"]
+    }
+  ]
+}
