@@ -49,7 +49,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "temperature_below",
@@ -63,7 +83,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "target_temperature_above",
@@ -77,7 +117,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "target_temperature_below",
@@ -91,7 +151,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "humidity_above",
@@ -105,7 +185,27 @@
               "required": true,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "sensor.humidity",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "humidity",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "humidity_below",
@@ -119,7 +219,27 @@
               "required": true,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "sensor.humidity",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "humidity",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "filter_life_below",
@@ -135,7 +255,27 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "maintenance.filter",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "filter_life",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "air_quality_metric_above",
@@ -147,7 +287,12 @@
               "label": "Metric",
               "type": "enum",
               "required": true,
-              "options": ["pm1", "pm2", "pm10", "co2"]
+              "options": [
+                "pm1",
+                "pm2",
+                "pm10",
+                "co2"
+              ]
             },
             {
               "name": "value",
@@ -155,7 +300,27 @@
               "type": "number",
               "required": true
             }
-          ]
+          ],
+          "capability": "sensor.air_quality_metric_above",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "air_quality_metric_above",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "air_quality_metric_below",
@@ -167,7 +332,12 @@
               "label": "Metric",
               "type": "enum",
               "required": true,
-              "options": ["pm1", "pm2", "pm10", "co2"]
+              "options": [
+                "pm1",
+                "pm2",
+                "pm10",
+                "co2"
+              ]
             },
             {
               "name": "value",
@@ -175,7 +345,27 @@
               "type": "number",
               "required": true
             }
-          ]
+          ],
+          "capability": "sensor.air_quality_metric_below",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "air_quality_metric_below",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "mode_is",
@@ -188,7 +378,24 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "fan_speed_is",
@@ -201,7 +408,24 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "climate.fan_speed",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "fan_speed",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "brightness_below",
@@ -217,21 +441,146 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "light.brightness",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "brightness",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         }
       ],
       "actions": [
         {
           "id": "turn_on",
-          "label": "Turn on"
+          "label": "Turn on",
+          "capability": "switch.power",
+          "runtime": {
+            "command": "turn_on"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "turn_off",
-          "label": "Turn off"
+          "label": "Turn off",
+          "capability": "switch.power",
+          "runtime": {
+            "command": "turn_off"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "toggle",
-          "label": "Toggle power"
+          "label": "Toggle power",
+          "capability": "switch.power",
+          "runtime": {
+            "command": "toggle"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": false
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_mode",
@@ -243,7 +592,42 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "runtime": {
+            "command": "set_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_target_temperature",
@@ -256,7 +640,42 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "climate.temperature",
+          "runtime": {
+            "command": "set_target_temperature"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_target_humidity",
@@ -269,7 +688,42 @@
               "required": true,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "action.set_target_humidity",
+          "runtime": {
+            "command": "set_target_humidity"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_fan_speed",
@@ -281,7 +735,42 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "climate.fan_speed",
+          "runtime": {
+            "command": "set_fan_speed"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_brightness",
@@ -296,11 +785,81 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "light.brightness",
+          "runtime": {
+            "command": "set_brightness"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "refresh",
-          "label": "Refresh state"
+          "label": "Refresh state",
+          "capability": "device.refresh",
+          "runtime": {
+            "command": "refresh"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         }
       ],
       "stop": [
@@ -327,6 +886,67 @@
               "unit": "min"
             }
           ]
+        }
+      ],
+      "deviceClass": "air_quality_sensor",
+      "entityType": "sensor",
+      "targeting": {
+        "scopes": [
+          "config",
+          "configs",
+          "room",
+          "rooms",
+          "group",
+          "groups",
+          "selection",
+          "tag",
+          "tags",
+          "capability",
+          "all_matching"
+        ],
+        "fanout": {
+          "supported": true,
+          "defaultMode": "selection",
+          "allowedModes": [
+            "config",
+            "configs",
+            "room",
+            "rooms",
+            "group",
+            "groups",
+            "tag",
+            "tags",
+            "capability",
+            "selection",
+            "all_matching"
+          ]
+        }
+      },
+      "freshness": {
+        "maxAgeSeconds": 300,
+        "staleDataMode": "block"
+      },
+      "ui": {
+        "icon": "wind",
+        "category": "air_quality_sensor"
+      },
+      "triggers": [
+        {
+          "id": "state_changed",
+          "label": "Device updates",
+          "description": "Start when this device reports a new state.",
+          "capability": "telemetry.state",
+          "runtime": {
+            "event": "device.state_changed",
+            "source": "integration"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "when"
+          }
         }
       ]
     },
@@ -365,7 +985,24 @@
         {
           "id": "door_open",
           "label": "Door is open",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.door_open",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "door_open",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "door_open_for_duration",
@@ -381,12 +1018,47 @@
               "max": 1440,
               "unit": "min"
             }
-          ]
+          ],
+          "capability": "sensor.door_open_for_duration",
+          "operators": [
+            "eq",
+            "neq",
+            "contains"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "door_open_for_duration",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "door_closed",
           "label": "Door is closed",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.door_closed",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "door_closed",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "filter_life_below",
@@ -402,7 +1074,27 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "maintenance.filter",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "filter_life",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "target_temperature_above",
@@ -416,7 +1108,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "target_temperature_below",
@@ -430,7 +1142,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "mode_is",
@@ -443,32 +1175,134 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "power_save_enabled",
           "label": "Power save is enabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.power",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "power",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "eco_friendly_enabled",
           "label": "Eco friendly mode is enabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.eco_friendly_enabled",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "eco_friendly_enabled",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "express_mode_enabled",
           "label": "Express mode is enabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "rapid_freeze_enabled",
           "label": "Rapid freeze is enabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.rapid_freeze_enabled",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "rapid_freeze_enabled",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "sabbath_mode_enabled",
           "label": "Sabbath mode is enabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         }
       ],
       "actions": [
@@ -483,51 +1317,471 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "climate.temperature",
+          "runtime": {
+            "command": "set_target_temperature"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "enable_power_save",
-          "label": "Enable power save"
+          "label": "Enable power save",
+          "capability": "action.enable_power_save",
+          "runtime": {
+            "command": "enable_power_save"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "disable_power_save",
-          "label": "Disable power save"
+          "label": "Disable power save",
+          "capability": "action.disable_power_save",
+          "runtime": {
+            "command": "disable_power_save"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "enable_eco_friendly",
-          "label": "Enable eco friendly mode"
+          "label": "Enable eco friendly mode",
+          "capability": "action.enable_eco_friendly",
+          "runtime": {
+            "command": "enable_eco_friendly"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "disable_eco_friendly",
-          "label": "Disable eco friendly mode"
+          "label": "Disable eco friendly mode",
+          "capability": "action.disable_eco_friendly",
+          "runtime": {
+            "command": "disable_eco_friendly"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "enable_express_mode",
-          "label": "Enable express mode"
+          "label": "Enable express mode",
+          "capability": "device.mode",
+          "runtime": {
+            "command": "enable_express_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "disable_express_mode",
-          "label": "Disable express mode"
+          "label": "Disable express mode",
+          "capability": "device.mode",
+          "runtime": {
+            "command": "disable_express_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "enable_rapid_freeze",
-          "label": "Enable rapid freeze"
+          "label": "Enable rapid freeze",
+          "capability": "action.enable_rapid_freeze",
+          "runtime": {
+            "command": "enable_rapid_freeze"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "disable_rapid_freeze",
-          "label": "Disable rapid freeze"
+          "label": "Disable rapid freeze",
+          "capability": "action.disable_rapid_freeze",
+          "runtime": {
+            "command": "disable_rapid_freeze"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "enable_sabbath_mode",
-          "label": "Enable sabbath mode"
+          "label": "Enable sabbath mode",
+          "capability": "device.mode",
+          "runtime": {
+            "command": "enable_sabbath_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "disable_sabbath_mode",
-          "label": "Disable sabbath mode"
+          "label": "Disable sabbath mode",
+          "capability": "device.mode",
+          "runtime": {
+            "command": "disable_sabbath_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "refresh",
-          "label": "Refresh state"
+          "label": "Refresh state",
+          "capability": "device.refresh",
+          "runtime": {
+            "command": "refresh"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         }
       ],
       "stop": [
@@ -561,6 +1815,67 @@
               "unit": "min"
             }
           ]
+        }
+      ],
+      "deviceClass": "climate_device",
+      "entityType": "device",
+      "targeting": {
+        "scopes": [
+          "config",
+          "configs",
+          "room",
+          "rooms",
+          "group",
+          "groups",
+          "selection",
+          "tag",
+          "tags",
+          "capability",
+          "all_matching"
+        ],
+        "fanout": {
+          "supported": true,
+          "defaultMode": "selection",
+          "allowedModes": [
+            "config",
+            "configs",
+            "room",
+            "rooms",
+            "group",
+            "groups",
+            "tag",
+            "tags",
+            "capability",
+            "selection",
+            "all_matching"
+          ]
+        }
+      },
+      "freshness": {
+        "maxAgeSeconds": 300,
+        "staleDataMode": "block"
+      },
+      "ui": {
+        "icon": "thermometer",
+        "category": "climate_device"
+      },
+      "triggers": [
+        {
+          "id": "state_changed",
+          "label": "Device updates",
+          "description": "Start when this device reports a new state.",
+          "capability": "telemetry.state",
+          "runtime": {
+            "event": "device.state_changed",
+            "source": "integration"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "when"
+          }
         }
       ]
     },
@@ -608,12 +1923,46 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "door_open",
           "label": "Door is open",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.door_open",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "door_open",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "door_open_for_duration",
@@ -629,37 +1978,157 @@
               "max": 720,
               "unit": "min"
             }
-          ]
+          ],
+          "capability": "sensor.door_open_for_duration",
+          "operators": [
+            "eq",
+            "neq",
+            "contains"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "door_open_for_duration",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "door_closed",
           "label": "Door is closed",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.door_closed",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "door_closed",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "remote_control_enabled",
           "label": "Remote control is enabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.remote_control_enabled",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "remote_control_enabled",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "remote_control_disabled",
           "label": "Remote control is disabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.remote_control_disabled",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "remote_control_disabled",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "cycle_running",
           "label": "Cycle is running",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.cycle_running",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "cycle_running",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "cycle_paused",
           "label": "Cycle is paused",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.cycle_paused",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "cycle_paused",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "cycle_complete",
           "label": "Cycle is complete",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.cycle_complete",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "cycle_complete",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "remaining_time_below",
@@ -674,7 +2143,27 @@
               "min": 0,
               "unit": "min"
             }
-          ]
+          ],
+          "capability": "sensor.remaining_time_below",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "remaining_time_below",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "remaining_time_above",
@@ -689,21 +2178,146 @@
               "min": 0,
               "unit": "min"
             }
-          ]
+          ],
+          "capability": "sensor.remaining_time_above",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "remaining_time_above",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         }
       ],
       "actions": [
         {
           "id": "start",
-          "label": "Start cycle"
+          "label": "Start cycle",
+          "capability": "action.start",
+          "runtime": {
+            "command": "start"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "pause",
-          "label": "Pause cycle"
+          "label": "Pause cycle",
+          "capability": "action.pause",
+          "runtime": {
+            "command": "pause"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "stop",
-          "label": "Stop cycle"
+          "label": "Stop cycle",
+          "capability": "action.stop",
+          "runtime": {
+            "command": "stop"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_course",
@@ -715,19 +2329,159 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "action.set_course",
+          "runtime": {
+            "command": "set_course"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "enable_remote_control",
-          "label": "Enable remote control"
+          "label": "Enable remote control",
+          "capability": "action.enable_remote_control",
+          "runtime": {
+            "command": "enable_remote_control"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "disable_remote_control",
-          "label": "Disable remote control"
+          "label": "Disable remote control",
+          "capability": "action.disable_remote_control",
+          "runtime": {
+            "command": "disable_remote_control"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "refresh",
-          "label": "Refresh state"
+          "label": "Refresh state",
+          "capability": "device.refresh",
+          "runtime": {
+            "command": "refresh"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         }
       ],
       "stop": [
@@ -757,6 +2511,67 @@
               "unit": "min"
             }
           ]
+        }
+      ],
+      "deviceClass": "climate_device",
+      "entityType": "device",
+      "targeting": {
+        "scopes": [
+          "config",
+          "configs",
+          "room",
+          "rooms",
+          "group",
+          "groups",
+          "selection",
+          "tag",
+          "tags",
+          "capability",
+          "all_matching"
+        ],
+        "fanout": {
+          "supported": true,
+          "defaultMode": "selection",
+          "allowedModes": [
+            "config",
+            "configs",
+            "room",
+            "rooms",
+            "group",
+            "groups",
+            "tag",
+            "tags",
+            "capability",
+            "selection",
+            "all_matching"
+          ]
+        }
+      },
+      "freshness": {
+        "maxAgeSeconds": 300,
+        "staleDataMode": "block"
+      },
+      "ui": {
+        "icon": "thermometer",
+        "category": "climate_device"
+      },
+      "triggers": [
+        {
+          "id": "state_changed",
+          "label": "Device updates",
+          "description": "Start when this device reports a new state.",
+          "capability": "telemetry.state",
+          "runtime": {
+            "event": "device.state_changed",
+            "source": "integration"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "when"
+          }
         }
       ]
     },
@@ -807,7 +2622,24 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "temperature_above",
@@ -821,7 +2653,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "temperature_below",
@@ -835,7 +2687,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "target_temperature_above",
@@ -849,7 +2721,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "remaining_time_below",
@@ -864,7 +2756,27 @@
               "min": 0,
               "unit": "min"
             }
-          ]
+          ],
+          "capability": "sensor.remaining_time_below",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "remaining_time_below",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "brightness_above",
@@ -880,7 +2792,27 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "light.brightness",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "brightness",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "brightness_below",
@@ -896,7 +2828,27 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "light.brightness",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "brightness",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "fan_speed_is",
@@ -909,7 +2861,24 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "climate.fan_speed",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "fan_speed",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "cook_mode_is",
@@ -922,31 +2891,187 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "remote_control_enabled",
           "label": "Remote control is enabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.remote_control_enabled",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "remote_control_enabled",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "remote_control_disabled",
           "label": "Remote control is disabled",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.remote_control_disabled",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "remote_control_disabled",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         }
       ],
       "actions": [
         {
           "id": "turn_on",
-          "label": "Turn on"
+          "label": "Turn on",
+          "capability": "switch.power",
+          "runtime": {
+            "command": "turn_on"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "turn_off",
-          "label": "Turn off"
+          "label": "Turn off",
+          "capability": "switch.power",
+          "runtime": {
+            "command": "turn_off"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "toggle",
-          "label": "Toggle power"
+          "label": "Toggle power",
+          "capability": "switch.power",
+          "runtime": {
+            "command": "toggle"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": false
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_mode",
@@ -958,7 +3083,42 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "runtime": {
+            "command": "set_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_fan_speed",
@@ -970,7 +3130,42 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "climate.fan_speed",
+          "runtime": {
+            "command": "set_fan_speed"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_brightness",
@@ -985,7 +3180,42 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "light.brightness",
+          "runtime": {
+            "command": "set_brightness"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_target_temperature",
@@ -998,7 +3228,42 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "climate.temperature",
+          "runtime": {
+            "command": "set_target_temperature"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_cook_mode",
@@ -1010,19 +3275,159 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "runtime": {
+            "command": "set_cook_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "enable_remote_control",
-          "label": "Enable remote control"
+          "label": "Enable remote control",
+          "capability": "action.enable_remote_control",
+          "runtime": {
+            "command": "enable_remote_control"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "disable_remote_control",
-          "label": "Disable remote control"
+          "label": "Disable remote control",
+          "capability": "action.disable_remote_control",
+          "runtime": {
+            "command": "disable_remote_control"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "refresh",
-          "label": "Refresh state"
+          "label": "Refresh state",
+          "capability": "device.refresh",
+          "runtime": {
+            "command": "refresh"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         }
       ],
       "stop": [
@@ -1052,6 +3457,67 @@
               "unit": "min"
             }
           ]
+        }
+      ],
+      "deviceClass": "climate_device",
+      "entityType": "device",
+      "targeting": {
+        "scopes": [
+          "config",
+          "configs",
+          "room",
+          "rooms",
+          "group",
+          "groups",
+          "selection",
+          "tag",
+          "tags",
+          "capability",
+          "all_matching"
+        ],
+        "fanout": {
+          "supported": true,
+          "defaultMode": "selection",
+          "allowedModes": [
+            "config",
+            "configs",
+            "room",
+            "rooms",
+            "group",
+            "groups",
+            "tag",
+            "tags",
+            "capability",
+            "selection",
+            "all_matching"
+          ]
+        }
+      },
+      "freshness": {
+        "maxAgeSeconds": 300,
+        "staleDataMode": "block"
+      },
+      "ui": {
+        "icon": "thermometer",
+        "category": "climate_device"
+      },
+      "triggers": [
+        {
+          "id": "state_changed",
+          "label": "Device updates",
+          "description": "Start when this device reports a new state.",
+          "capability": "telemetry.state",
+          "runtime": {
+            "event": "device.state_changed",
+            "source": "integration"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "when"
+          }
         }
       ]
     },
@@ -1097,7 +3563,27 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "sensor.battery",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "battery",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "battery_above",
@@ -1113,7 +3599,27 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "sensor.battery",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "battery",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "mode_is",
@@ -1126,17 +3632,68 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "cleaning_active",
           "label": "Cleaning is active",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.cleaning_active",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "cleaning_active",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "cleaning_inactive",
           "label": "Cleaning is inactive",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.cleaning_inactive",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "cleaning_inactive",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "battery_critical",
@@ -1152,21 +3709,146 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "sensor.battery",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "battery",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         }
       ],
       "actions": [
         {
           "id": "start",
-          "label": "Start cleaning"
+          "label": "Start cleaning",
+          "capability": "action.start",
+          "runtime": {
+            "command": "start"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "pause",
-          "label": "Pause cleaning"
+          "label": "Pause cleaning",
+          "capability": "action.pause",
+          "runtime": {
+            "command": "pause"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "stop",
-          "label": "Stop cleaning"
+          "label": "Stop cleaning",
+          "capability": "action.stop",
+          "runtime": {
+            "command": "stop"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_mode",
@@ -1178,11 +3860,81 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "runtime": {
+            "command": "set_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "refresh",
-          "label": "Refresh state"
+          "label": "Refresh state",
+          "capability": "device.refresh",
+          "runtime": {
+            "command": "refresh"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         }
       ],
       "stop": [
@@ -1208,6 +3960,67 @@
               "unit": "min"
             }
           ]
+        }
+      ],
+      "deviceClass": "climate_device",
+      "entityType": "device",
+      "targeting": {
+        "scopes": [
+          "config",
+          "configs",
+          "room",
+          "rooms",
+          "group",
+          "groups",
+          "selection",
+          "tag",
+          "tags",
+          "capability",
+          "all_matching"
+        ],
+        "fanout": {
+          "supported": true,
+          "defaultMode": "selection",
+          "allowedModes": [
+            "config",
+            "configs",
+            "room",
+            "rooms",
+            "group",
+            "groups",
+            "tag",
+            "tags",
+            "capability",
+            "selection",
+            "all_matching"
+          ]
+        }
+      },
+      "freshness": {
+        "maxAgeSeconds": 300,
+        "staleDataMode": "block"
+      },
+      "ui": {
+        "icon": "thermometer",
+        "category": "climate_device"
+      },
+      "triggers": [
+        {
+          "id": "state_changed",
+          "label": "Device updates",
+          "description": "Start when this device reports a new state.",
+          "capability": "telemetry.state",
+          "runtime": {
+            "event": "device.state_changed",
+            "source": "integration"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "when"
+          }
         }
       ]
     },
@@ -1247,7 +4060,24 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "mode",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "temperature_above",
@@ -1261,12 +4091,49 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "cycle_running",
           "label": "Cycle is running",
-          "type": "boolean"
+          "type": "boolean",
+          "capability": "sensor.cycle_running",
+          "operators": [
+            "eq",
+            "neq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "cycle_running",
+            "operator": "eq"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "remaining_time_below",
@@ -1281,7 +4148,27 @@
               "min": 0,
               "unit": "min"
             }
-          ]
+          ],
+          "capability": "sensor.remaining_time_below",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "remaining_time_below",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "target_temperature_below",
@@ -1295,7 +4182,27 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "sensor.temperature",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "temperature",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         },
         {
           "id": "brightness_below",
@@ -1311,7 +4218,27 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "light.brightness",
+          "operators": [
+            ">",
+            ">=",
+            "<",
+            "<=",
+            "eq"
+          ],
+          "runtime": {
+            "source": "state",
+            "field": "brightness",
+            "operator": ">"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "only_if"
+          }
         }
       ],
       "actions": [
@@ -1325,19 +4252,159 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "device.mode",
+          "runtime": {
+            "command": "set_mode"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "start",
-          "label": "Start cycle"
+          "label": "Start cycle",
+          "capability": "action.start",
+          "runtime": {
+            "command": "start"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "pause",
-          "label": "Pause cycle"
+          "label": "Pause cycle",
+          "capability": "action.pause",
+          "runtime": {
+            "command": "pause"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "stop",
-          "label": "Stop cycle"
+          "label": "Stop cycle",
+          "capability": "action.stop",
+          "runtime": {
+            "command": "stop"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_course",
@@ -1349,7 +4416,42 @@
               "type": "text",
               "required": true
             }
-          ]
+          ],
+          "capability": "action.set_course",
+          "runtime": {
+            "command": "set_course"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_brightness",
@@ -1364,7 +4466,42 @@
               "max": 100,
               "unit": "%"
             }
-          ]
+          ],
+          "capability": "light.brightness",
+          "runtime": {
+            "command": "set_brightness"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "set_target_temperature",
@@ -1377,11 +4514,81 @@
               "required": true,
               "unit": "°C"
             }
-          ]
+          ],
+          "capability": "climate.temperature",
+          "runtime": {
+            "command": "set_target_temperature"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         },
         {
           "id": "refresh",
-          "label": "Refresh state"
+          "label": "Refresh state",
+          "capability": "device.refresh",
+          "runtime": {
+            "command": "refresh"
+          },
+          "targeting": {
+            "fanoutSafe": true,
+            "scopes": [
+              "config",
+              "configs",
+              "room",
+              "rooms",
+              "group",
+              "groups",
+              "selection",
+              "tag",
+              "tags",
+              "capability",
+              "all_matching"
+            ],
+            "supportsMultiTarget": true
+          },
+          "failure": {
+            "strategy": "retry_then_continue",
+            "retry": {
+              "maxAttempts": 1,
+              "delaySeconds": 2,
+              "backoff": "fixed"
+            },
+            "timeoutSeconds": 30,
+            "continueOnPartialFailure": true,
+            "idempotent": true
+          },
+          "ui": {
+            "group": "do_this"
+          }
         }
       ],
       "stop": [
@@ -1389,7 +4596,183 @@
           "id": "stop",
           "label": "Stop cycle"
         }
+      ],
+      "deviceClass": "climate_device",
+      "entityType": "device",
+      "targeting": {
+        "scopes": [
+          "config",
+          "configs",
+          "room",
+          "rooms",
+          "group",
+          "groups",
+          "selection",
+          "tag",
+          "tags",
+          "capability",
+          "all_matching"
+        ],
+        "fanout": {
+          "supported": true,
+          "defaultMode": "selection",
+          "allowedModes": [
+            "config",
+            "configs",
+            "room",
+            "rooms",
+            "group",
+            "groups",
+            "tag",
+            "tags",
+            "capability",
+            "selection",
+            "all_matching"
+          ]
+        }
+      },
+      "freshness": {
+        "maxAgeSeconds": 300,
+        "staleDataMode": "block"
+      },
+      "ui": {
+        "icon": "thermometer",
+        "category": "climate_device"
+      },
+      "triggers": [
+        {
+          "id": "state_changed",
+          "label": "Device updates",
+          "description": "Start when this device reports a new state.",
+          "capability": "telemetry.state",
+          "runtime": {
+            "event": "device.state_changed",
+            "source": "integration"
+          },
+          "freshness": {
+            "maxAgeSeconds": 300,
+            "staleDataMode": "block"
+          },
+          "ui": {
+            "group": "when"
+          }
+        }
       ]
     }
-  ]
+  ],
+  "templates": [
+    {
+      "id": "thinq_filter_life_reminder",
+      "label": "Remind me when a ThinQ filter needs attention",
+      "description": "Checks ThinQ updates and sends a safe notification when filter life is low.",
+      "category": "Maintenance",
+      "deviceKey": "thinq_climate_device",
+      "config": {
+        "automation_schema_version": "automation.behavior.v2",
+        "triggers": [
+          {
+            "id": "state_changed",
+            "label": "ThinQ device updates",
+            "type": "integration_event",
+            "event": "device.state_changed",
+            "capability": "telemetry.state",
+            "enabled": true,
+            "sourceRef": {
+              "integrationId": "{{integrationId}}",
+              "integrationKey": "{{integrationKey}}",
+              "configId": "{{configId}}",
+              "behaviorDeviceKey": "thinq_climate_device",
+              "optionKey": "state_changed",
+              "capability": "telemetry.state"
+            }
+          }
+        ],
+        "trigger": {
+          "id": "state_changed",
+          "label": "ThinQ device updates",
+          "type": "integration_event",
+          "event": "device.state_changed",
+          "capability": "telemetry.state",
+          "enabled": true
+        },
+        "intent": "maintenance_and_visibility",
+        "conditionTree": {
+          "id": "filter_life_low",
+          "label": "Filter life is below 15%",
+          "field": "filter_life",
+          "operator": "<",
+          "value": 15,
+          "sourceRef": {
+            "integrationId": "{{integrationId}}",
+            "integrationKey": "{{integrationKey}}",
+            "configId": "{{configId}}",
+            "behaviorDeviceKey": "thinq_climate_device",
+            "optionKey": "filter_life_below",
+            "capability": "sensor.filter_life"
+          }
+        },
+        "actions": [
+          {
+            "id": "refresh_readings",
+            "label": "Refresh ThinQ readings",
+            "action": "refresh",
+            "capability": "device.refresh",
+            "sourceRef": {
+              "integrationId": "{{integrationId}}",
+              "integrationKey": "{{integrationKey}}",
+              "configId": "{{configId}}",
+              "behaviorDeviceKey": "thinq_climate_device",
+              "optionKey": "refresh",
+              "capability": "device.refresh"
+            },
+            "target": {
+              "mode": "selection",
+              "configIds": [
+                "{{configId}}"
+              ]
+            },
+            "failure": {
+              "strategy": "retry_then_continue",
+              "retry": {
+                "maxAttempts": 2,
+                "delaySeconds": 2,
+                "timeoutSeconds": 15,
+                "backoff": "fixed"
+              },
+              "continueOnPartialFailure": true
+            }
+          }
+        ],
+        "safety": {
+          "staleDataMode": "block",
+          "maxAgeSeconds": 300,
+          "requireFreshTrigger": true,
+          "dryRunFirst": false
+        },
+        "failure": {
+          "strategy": "follow_edges",
+          "fallbackBehaviorId": "",
+          "conditionTree": {
+            "op": "and",
+            "children": []
+          }
+        },
+        "stop": {
+          "never": true
+        },
+        "override": {
+          "mode": "continue"
+        }
+      },
+      "ui": {
+        "accent": "maintenance",
+        "icon": "wrench"
+      },
+      "metadata": {
+        "recommended": true,
+        "difficulty": "easy"
+      }
+    }
+  ],
+  "behaviorSchemaVersion": "integration.behaviors.v2"
 }
