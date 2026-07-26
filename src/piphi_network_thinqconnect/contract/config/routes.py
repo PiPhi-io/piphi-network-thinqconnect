@@ -169,6 +169,7 @@ async def fetch_and_store_state(*, device_id: str) -> dict[str, Any]:
             process_state=runtime_context.process_state,
             telemetry_client=telemetry_client,
             auth_context=runtime_context.auth,
+            config_id=str(device.get("config_id") or entry_id),
             device_id=str(device.get("device_id") or entry_id),
             metrics=_build_telemetry_metrics(normalized_state),
             container_id=resolved_container_id,

@@ -47,7 +47,7 @@
               "label": "Temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -81,7 +81,7 @@
               "label": "Temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -115,7 +115,7 @@
               "label": "Target temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -149,7 +149,7 @@
               "label": "Target temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -502,6 +502,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -541,6 +544,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -580,6 +586,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "low"
           }
         },
         {
@@ -627,6 +636,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -638,7 +650,7 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "climate.temperature",
@@ -675,6 +687,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -723,6 +738,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -770,6 +788,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -820,6 +841,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -859,6 +883,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "low"
           }
         }
       ],
@@ -1106,7 +1133,7 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -1140,7 +1167,7 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -1315,7 +1342,7 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "climate.temperature",
@@ -1352,6 +1379,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1391,6 +1421,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1430,6 +1463,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1469,6 +1505,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1508,6 +1547,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1547,6 +1589,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1586,6 +1631,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1625,6 +1673,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1664,6 +1715,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1703,6 +1757,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1742,6 +1799,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -1781,6 +1841,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "low"
           }
         }
       ],
@@ -2239,6 +2302,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -2278,6 +2344,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -2317,6 +2386,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -2364,6 +2436,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -2403,6 +2478,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -2442,6 +2520,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -2481,6 +2562,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "low"
           }
         }
       ],
@@ -2651,7 +2735,7 @@
               "label": "Temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -2685,7 +2769,7 @@
               "label": "Temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -2719,7 +2803,7 @@
               "label": "Target temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -2993,6 +3077,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3032,6 +3119,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3071,6 +3161,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "low"
           }
         },
         {
@@ -3118,6 +3211,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3165,6 +3261,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3215,6 +3314,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3226,7 +3328,7 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "climate.temperature",
@@ -3263,6 +3365,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3310,6 +3415,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3349,6 +3457,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3388,6 +3499,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3427,6 +3541,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "low"
           }
         }
       ],
@@ -3770,6 +3887,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3809,6 +3929,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3848,6 +3971,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3895,6 +4021,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -3934,6 +4063,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "low"
           }
         }
       ],
@@ -4089,7 +4221,7 @@
               "label": "Temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -4180,7 +4312,7 @@
               "label": "Target temperature threshold",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "sensor.temperature",
@@ -4287,6 +4419,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -4326,6 +4461,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -4365,6 +4503,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -4404,6 +4545,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -4451,6 +4595,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -4501,6 +4648,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -4512,7 +4662,7 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
-              "unit": "°C"
+              "unit": "\u00b0C"
             }
           ],
           "capability": "climate.temperature",
@@ -4549,6 +4699,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "medium"
           }
         },
         {
@@ -4588,6 +4741,9 @@
           },
           "ui": {
             "group": "do_this"
+          },
+          "safety": {
+            "riskLevel": "low"
           }
         }
       ],
@@ -4774,5 +4930,69 @@
       }
     }
   ],
-  "behaviorSchemaVersion": "integration.behaviors.v2"
+  "behaviorSchemaVersion": "integration.behaviors.v2",
+  "telemetry": {
+    "capabilityMappings": [
+      {
+        "nativeMetric": "battery",
+        "capability": "sensor.battery"
+      },
+      {
+        "nativeMetric": "brightness",
+        "capability": "light.brightness"
+      },
+      {
+        "nativeMetric": "co2",
+        "capability": "sensor.co2"
+      },
+      {
+        "nativeMetric": "door",
+        "capability": "sensor.door"
+      },
+      {
+        "nativeMetric": "fan_speed",
+        "capability": "climate.fan_speed"
+      },
+      {
+        "nativeMetric": "filter_life",
+        "capability": "maintenance.filter"
+      },
+      {
+        "nativeMetric": "humidity",
+        "capability": "sensor.humidity"
+      },
+      {
+        "nativeMetric": "mode",
+        "capability": "device.mode"
+      },
+      {
+        "nativeMetric": "pm1",
+        "capability": "sensor.pm1"
+      },
+      {
+        "nativeMetric": "pm10",
+        "capability": "sensor.pm10"
+      },
+      {
+        "nativeMetric": "pm2",
+        "capability": "sensor.pm2"
+      },
+      {
+        "nativeMetric": "power",
+        "capability": "sensor.power"
+      },
+      {
+        "nativeMetric": "switch",
+        "capability": "sensor.switch"
+      },
+      {
+        "nativeMetric": "target_temperature",
+        "capability": "sensor.target_temperature"
+      },
+      {
+        "nativeMetric": "temperature",
+        "capability": "sensor.temperature"
+      }
+    ]
+  }
 }
