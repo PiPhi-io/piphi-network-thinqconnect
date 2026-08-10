@@ -18,7 +18,7 @@ Python SDK.
 
 ## Runtime SDK and testkit
 
-- runtime SDK: `piphi-runtime-kit-python>=0.4.1`
+- runtime SDK: `piphi-runtime-kit-python==0.6.0`
 - ThinQ SDK: `thinqconnect`
 - local test helper: `piphi-runtime-testkit-python`
 
