@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -7,6 +8,10 @@ import pytest
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+os.environ.setdefault(
+    "PIPHI_AUTOMATION_LEDGER_PATH",
+    f"/tmp/piphi-thinq-automation-actions-{os.getpid()}.sqlite3",
+)
 SRC_PATH = PROJECT_ROOT / "src"
 TESTKIT_SRC_PATH = PROJECT_ROOT.parent / "piphi-runtime-testkit-python" / "src"
 RUNTIME_KIT_SRC_PATH = PROJECT_ROOT.parent / "piphi-runtime-kit-python" / "src"

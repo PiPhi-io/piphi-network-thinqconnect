@@ -396,6 +396,7 @@ def test_command_route_dispatches_family_specific_refrigerator_control(mock_core
         )
         assert config_response.status_code == 200
 
+        headers["X-PiPhi-Idempotency-Key"] = "thinq-action-idempotency-1"
         response = client.post(
             "/command",
             json={
@@ -403,9 +404,23 @@ def test_command_route_dispatches_family_specific_refrigerator_control(mock_core
                 "command": "enable_express_mode",
                 "args": {},
             },
+            headers=headers,
+        )
+        replay = client.post(
+            "/command",
+            json={
+                "device_id": "fridge-1",
+                "command": "enable_express_mode",
+                "args": {},
+            },
+            headers=headers,
         )
 
     assert response.status_code == 200
+    assert replay.status_code == 200
+    assert response.json()["replayed"] is False
+    assert replay.json()["replayed"] is True
+    assert len(executed) == 1
     assert executed[0]["control_method"] == "set_express_mode"
     assert executed[0]["control_params"] == {"express_mode": "ON"}
     assert response.json()["result"]["status"] == "ok"

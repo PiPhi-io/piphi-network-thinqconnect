@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from piphi_network_thinqconnect.lib.normalization import DEVICE_TYPE_CATALOG, stable_client_id
+from piphi_network_thinqconnect.contract.command import router as command_module
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,6 +58,21 @@ def test_documented_commands_exist_in_manifest_and_behaviors() -> None:
     assert documented_commands
     assert documented_commands.issubset(manifest_commands)
     assert documented_commands.issubset(behavior_commands)
+
+
+def test_automation_registry_matches_declared_behavior_commands() -> None:
+    behaviors = _load_json("src/behaviors.json")
+    declared_commands = {
+        option["runtime"]["command"]
+        for device in behaviors.get("devices", [])
+        for option in device.get("actions", [])
+    }
+    registered_commands = {
+        definition.command
+        for definition in command_module.automation_registry.action_definitions
+    }
+
+    assert registered_commands == declared_commands
 
 
 def test_behavior_capabilities_exist_in_manifest() -> None:
