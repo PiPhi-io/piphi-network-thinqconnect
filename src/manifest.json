@@ -2,7 +2,7 @@
   "manifest_version": "1.0",
   "id": "lg-thinq-connect-api",
   "name": "LG ThinQ Connect",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Integration for LG ThinQ appliances using the official ThinQ Connect Python SDK.",
   "maintainer": {
     "name": "PiPhi Network",
@@ -18,7 +18,7 @@
     "linux": {
       "type": "container",
       "container": {
-        "image": "piphinetwork/lg-thinq-connect:0.1.0",
+        "image": "piphinetwork/lg-thinq-connect:0.1.1",
         "ports": [
           {
             "container": 3667,
@@ -154,23 +154,36 @@
     "switch": {
       "kind": "switch",
       "dashboard": {
-        "allowed_widgets": ["tile", "button", "stat"],
+        "allowed_widgets": [
+          "tile",
+          "button",
+          "stat"
+        ],
         "default_widget": "tile"
       }
     },
     "temperature": {
       "kind": "sensor",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "dashboard": {
-        "allowed_widgets": ["thermostat", "sensor-card", "stat", "line-chart", "gauge"],
+        "allowed_widgets": [
+          "thermostat",
+          "sensor-card",
+          "stat",
+          "line-chart",
+          "gauge"
+        ],
         "default_widget": "sensor-card"
       }
     },
     "target_temperature": {
       "kind": "sensor",
-      "unit": "°C",
+      "unit": "\u00b0C",
       "dashboard": {
-        "allowed_widgets": ["thermostat", "stat"],
+        "allowed_widgets": [
+          "thermostat",
+          "stat"
+        ],
         "default_widget": "thermostat"
       }
     },
@@ -178,28 +191,45 @@
       "kind": "sensor",
       "unit": "%",
       "dashboard": {
-        "allowed_widgets": ["sensor-card", "stat", "line-chart", "gauge"],
+        "allowed_widgets": [
+          "sensor-card",
+          "stat",
+          "line-chart",
+          "gauge"
+        ],
         "default_widget": "sensor-card"
       }
     },
     "pm1": {
       "kind": "sensor",
       "dashboard": {
-        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "allowed_widgets": [
+          "stat",
+          "line-chart",
+          "gauge"
+        ],
         "default_widget": "stat"
       }
     },
     "pm2": {
       "kind": "sensor",
       "dashboard": {
-        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "allowed_widgets": [
+          "stat",
+          "line-chart",
+          "gauge"
+        ],
         "default_widget": "stat"
       }
     },
     "pm10": {
       "kind": "sensor",
       "dashboard": {
-        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "allowed_widgets": [
+          "stat",
+          "line-chart",
+          "gauge"
+        ],
         "default_widget": "stat"
       }
     },
@@ -207,7 +237,11 @@
       "kind": "sensor",
       "unit": "ppm",
       "dashboard": {
-        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "allowed_widgets": [
+          "stat",
+          "line-chart",
+          "gauge"
+        ],
         "default_widget": "stat"
       }
     },
@@ -215,35 +249,54 @@
       "kind": "sensor",
       "unit": "W",
       "dashboard": {
-        "allowed_widgets": ["stat", "line-chart", "gauge"],
+        "allowed_widgets": [
+          "stat",
+          "line-chart",
+          "gauge"
+        ],
         "default_widget": "stat"
       }
     },
     "fan_speed": {
       "kind": "sensor",
       "dashboard": {
-        "allowed_widgets": ["tile", "status-list", "stat"],
+        "allowed_widgets": [
+          "tile",
+          "status-list",
+          "stat"
+        ],
         "default_widget": "status-list"
       }
     },
     "mode": {
       "kind": "sensor",
       "dashboard": {
-        "allowed_widgets": ["status-list", "stat", "tile"],
+        "allowed_widgets": [
+          "status-list",
+          "stat",
+          "tile"
+        ],
         "default_widget": "status-list"
       }
     },
     "brightness": {
       "kind": "sensor",
       "dashboard": {
-        "allowed_widgets": ["light-card", "tile", "stat"],
+        "allowed_widgets": [
+          "light-card",
+          "tile",
+          "stat"
+        ],
         "default_widget": "light-card"
       }
     },
     "door": {
       "kind": "sensor",
       "dashboard": {
-        "allowed_widgets": ["status-list", "stat"],
+        "allowed_widgets": [
+          "status-list",
+          "stat"
+        ],
         "default_widget": "status-list"
       }
     },
@@ -251,7 +304,10 @@
       "kind": "sensor",
       "unit": "%",
       "dashboard": {
-        "allowed_widgets": ["stat", "gauge"],
+        "allowed_widgets": [
+          "stat",
+          "gauge"
+        ],
         "default_widget": "gauge"
       }
     },
@@ -259,14 +315,19 @@
       "kind": "sensor",
       "unit": "%",
       "dashboard": {
-        "allowed_widgets": ["stat", "gauge"],
+        "allowed_widgets": [
+          "stat",
+          "gauge"
+        ],
         "default_widget": "gauge"
       }
     },
     "refresh": {
       "kind": "action",
       "dashboard": {
-        "allowed_widgets": ["button"],
+        "allowed_widgets": [
+          "button"
+        ],
         "default_widget": "button"
       }
     }
@@ -355,27 +416,40 @@
     {
       "id": "generic_switch",
       "name": "Power",
-      "capabilities": ["switch"]
+      "capabilities": [
+        "switch"
+      ]
     },
     {
       "id": "generic_temperature",
       "name": "Temperature",
-      "capabilities": ["temperature", "target_temperature"]
+      "capabilities": [
+        "temperature",
+        "target_temperature"
+      ]
     },
     {
       "id": "generic_humidity",
       "name": "Humidity",
-      "capabilities": ["humidity"]
+      "capabilities": [
+        "humidity"
+      ]
     },
     {
       "id": "generic_mode",
       "name": "Mode",
-      "capabilities": ["mode", "fan_speed", "brightness"]
+      "capabilities": [
+        "mode",
+        "fan_speed",
+        "brightness"
+      ]
     },
     {
       "id": "generic_refresh",
       "name": "Refresh",
-      "capabilities": ["refresh"]
+      "capabilities": [
+        "refresh"
+      ]
     }
   ]
 }
