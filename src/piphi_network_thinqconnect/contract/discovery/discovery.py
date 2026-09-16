@@ -10,10 +10,12 @@ from piphi_runtime_kit_python import (
 from piphi_network_thinqconnect.lib.client import ThinQApiClient, ThinQClientError
 from piphi_network_thinqconnect.lib.logging import logger
 from piphi_network_thinqconnect.lib.schemas import ThinQDiscoveryRequest
+from piphi_network_thinqconnect.lib.simulator import SimulatedThinQClient
 
 
 router = APIRouter(tags=["discovery"])
 thinq_client = ThinQApiClient()
+simulator_client = SimulatedThinQClient()
 
 
 async def _run_discovery(
@@ -21,6 +23,7 @@ async def _run_discovery(
     access_token: str | None = None,
     country_code: str | None = None,
     client_id: str | None = None,
+    simulation_mode: bool = False,
 ) -> dict:
     normalized_inputs = normalize_discovery_inputs(
         {
@@ -35,11 +38,12 @@ async def _run_discovery(
     resolved_country_code = str(normalized_inputs.get("country_code") or "").strip().upper()
     resolved_client_id = str(normalized_inputs.get("client_id") or "").strip() or None
 
-    if not resolved_access_token or not resolved_country_code:
+    if not simulation_mode and (not resolved_access_token or not resolved_country_code):
         return build_discovery_response([]).model_dump()
 
     try:
-        devices = await thinq_client.discover_devices(
+        upstream_client = simulator_client if simulation_mode else thinq_client
+        devices = await upstream_client.discover_devices(
             access_token=resolved_access_token,
             country_code=resolved_country_code,
             client_id=resolved_client_id,
@@ -63,4 +67,5 @@ async def discover_devices_with_inputs(request: ThinQDiscoveryRequest) -> dict:
         access_token=request.access_token,
         country_code=request.country_code,
         client_id=request.client_id,
+        simulation_mode=request.simulation_mode,
     )

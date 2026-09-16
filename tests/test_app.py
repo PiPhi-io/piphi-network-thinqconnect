@@ -57,6 +57,7 @@ def _ac_snapshot() -> dict:
             "current_temperature_c": 23.5,
             "target_temperature_c": 24.0,
             "humidity": 45,
+            "filter_remain_percent": 74,
             "operation": "OFF",
             "mode": "COOL",
             "online": True,
@@ -180,6 +181,24 @@ def test_discovery_returns_mixed_thinq_devices(monkeypatch) -> None:
     assert payload["devices"][1]["device_type"] == "DEVICE_REFRIGERATOR"
 
 
+def test_discovery_simulation_needs_no_account_credentials() -> None:
+    reset_runtime_state()
+
+    with TestClient(app) as client:
+        response = client.post(
+            "/discover",
+            json={"simulation_mode": True},
+        )
+
+    assert response.status_code == 200
+    devices = response.json()["devices"]
+    assert [device["device_id"] for device in devices] == [
+        "sim-thinq-washer",
+        "sim-thinq-fridge",
+        "sim-thinq-ac",
+    ]
+
+
 def test_config_apply_sends_telemetry_and_event(mock_core, monkeypatch) -> None:
     reset_runtime_state()
 
@@ -229,6 +248,11 @@ def test_config_apply_sends_telemetry_and_event(mock_core, monkeypatch) -> None:
     assert event_headers["x-container-id"] == "runtime-456"
     assert event_headers["x-piphi-integration-token"] == "secret-token"
     assert telemetry_request.json_body["metrics"]["current_temperature_c"] == 23.5
+    assert telemetry_request.json_body["metrics"]["temperature"] == 23.5
+    assert telemetry_request.json_body["metrics"]["target_temperature"] == 24.0
+    assert telemetry_request.json_body["metrics"]["filter_life"] == 74
+    assert telemetry_request.json_body["metrics"]["switch"] is False
+    assert telemetry_request.json_body["units"]["temperature"] == "°C"
     assert telemetry_request.json_body["units"]["current_temperature_c"] == "°C"
 
 
@@ -267,6 +291,7 @@ def test_entities_and_state_include_read_only_device(mock_core, monkeypatch) -> 
         assert len(entities) == 1
         assert entities[0]["device_type"] == "DEVICE_REFRIGERATOR"
         assert entities[0]["capabilities"] == [
+            "appliance_state",
             "door",
             "filter_life",
             "mode",

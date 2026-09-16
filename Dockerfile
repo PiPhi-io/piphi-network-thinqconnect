@@ -1,3 +1,10 @@
+FROM node:22-slim AS piphi-widget
+WORKDIR /widget
+COPY widgets/thinqconnect-overview/package*.json ./
+RUN npm ci --ignore-scripts
+COPY widgets/thinqconnect-overview/src ./src
+RUN npm run build
+
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -27,4 +34,8 @@ EXPOSE 3667
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD python -c "import json, urllib.request; json.load(urllib.request.urlopen('http://127.0.0.1:3667/health', timeout=3))" || exit 1
 
+COPY --from=piphi-widget /widget/dist /app/widgets/thinqconnect-overview/dist
+COPY widgets/thinqconnect-overview/widget.manifest.json /app/widgets/thinqconnect-overview/widget.manifest.json
+COPY widgets/thinqconnect-overview/previews /app/widgets/thinqconnect-overview/previews
+ENV PIPHI_WIDGET_DIR=/app/widgets
 CMD ["python", "-m", "piphi_network_thinqconnect.app"]

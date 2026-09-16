@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import os
+from pathlib import Path
+
 import json
 import multiprocessing
-from pathlib import Path
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from piphi_network_thinqconnect.contract.command.router import router as command_router
 from piphi_network_thinqconnect.contract.config.routes import config_router
@@ -18,7 +21,20 @@ from piphi_network_thinqconnect.contract.ui_schema.router import router as ui_sc
 from piphi_network_thinqconnect.lib.lifespan import lifespan
 
 
+def _mount_widget_assets(application: FastAPI) -> None:
+    widget_dir = Path(os.getenv("PIPHI_WIDGET_DIR", Path.cwd() / "widgets"))
+    if widget_dir.is_dir():
+        application.mount(
+            "/widgets",
+            StaticFiles(directory=widget_dir),
+            name="thinqconnect-overview-widgets",
+        )
+
+
 app = FastAPI(lifespan=lifespan)
+
+
+_mount_widget_assets(app)
 app.include_router(health_router)
 app.include_router(command_router)
 app.include_router(entities_router)

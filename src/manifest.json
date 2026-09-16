@@ -2,7 +2,7 @@
   "manifest_version": "1.0",
   "id": "lg-thinq-connect-api",
   "name": "LG ThinQ Connect",
-  "version": "0.1.1",
+  "version": "0.1.7",
   "description": "Integration for LG ThinQ appliances using the official ThinQ Connect Python SDK.",
   "maintainer": {
     "name": "PiPhi Network",
@@ -18,7 +18,7 @@
     "linux": {
       "type": "container",
       "container": {
-        "image": "piphinetwork/lg-thinq-connect:0.1.1",
+        "image": "piphinetwork/lg-thinq-connect:0.1.7",
         "ports": [
           {
             "container": 3667,
@@ -37,11 +37,19 @@
         "method": "direct",
         "inputs": [
           {
+            "name": "simulation_mode",
+            "label": "Use Simulator",
+            "type": "boolean",
+            "required": false,
+            "default": false,
+            "description": "Use deterministic washer, refrigerator, and air-conditioner fixtures without an LG account."
+          },
+          {
             "name": "access_token",
             "label": "Personal Access Token",
             "type": "password",
             "secret": true,
-            "required": true,
+            "required": false,
             "description": "Personal access token generated from the LG ThinQ Developer portal."
           },
           {
@@ -49,6 +57,7 @@
             "label": "Country Code",
             "type": "text",
             "required": true,
+            "default": "US",
             "placeholder": "US",
             "description": "Two-letter ThinQ country code such as US, CA, KR, or GB."
           },
@@ -71,17 +80,25 @@
         "method": "proxy",
         "inputs": [
           {
+            "name": "simulation_mode",
+            "label": "Use Simulator",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
             "name": "access_token",
             "label": "Personal Access Token",
             "type": "password",
             "secret": true,
-            "required": true
+            "required": false
           },
           {
             "name": "country_code",
             "label": "Country Code",
             "type": "text",
             "required": true,
+            "default": "US",
             "placeholder": "US"
           },
           {
@@ -102,17 +119,25 @@
         "method": "proxy",
         "inputs": [
           {
+            "name": "simulation_mode",
+            "label": "Use Simulator",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
             "name": "access_token",
             "label": "Personal Access Token",
             "type": "password",
             "secret": true,
-            "required": true
+            "required": false
           },
           {
             "name": "country_code",
             "label": "Country Code",
             "type": "text",
             "required": true,
+            "default": "US",
             "placeholder": "US"
           },
           {
@@ -156,8 +181,8 @@
       "dashboard": {
         "allowed_widgets": [
           "tile",
-          "button",
-          "stat"
+          "stat",
+          "external-widget"
         ],
         "default_widget": "tile"
       }
@@ -171,7 +196,8 @@
           "sensor-card",
           "stat",
           "line-chart",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "sensor-card"
       }
@@ -182,7 +208,8 @@
       "dashboard": {
         "allowed_widgets": [
           "thermostat",
-          "stat"
+          "stat",
+          "external-widget"
         ],
         "default_widget": "thermostat"
       }
@@ -195,7 +222,8 @@
           "sensor-card",
           "stat",
           "line-chart",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "sensor-card"
       }
@@ -206,7 +234,8 @@
         "allowed_widgets": [
           "stat",
           "line-chart",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "stat"
       }
@@ -217,7 +246,8 @@
         "allowed_widgets": [
           "stat",
           "line-chart",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "stat"
       }
@@ -228,7 +258,8 @@
         "allowed_widgets": [
           "stat",
           "line-chart",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "stat"
       }
@@ -240,7 +271,8 @@
         "allowed_widgets": [
           "stat",
           "line-chart",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "stat"
       }
@@ -252,7 +284,8 @@
         "allowed_widgets": [
           "stat",
           "line-chart",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "stat"
       }
@@ -263,18 +296,21 @@
         "allowed_widgets": [
           "tile",
           "status-list",
-          "stat"
+          "stat",
+          "external-widget"
         ],
         "default_widget": "status-list"
       }
     },
     "mode": {
       "kind": "sensor",
+      "value_kind": "text",
       "dashboard": {
         "allowed_widgets": [
           "status-list",
           "stat",
-          "tile"
+          "tile",
+          "external-widget"
         ],
         "default_widget": "status-list"
       }
@@ -285,17 +321,20 @@
         "allowed_widgets": [
           "light-card",
           "tile",
-          "stat"
+          "stat",
+          "external-widget"
         ],
         "default_widget": "light-card"
       }
     },
     "door": {
       "kind": "sensor",
+      "value_kind": "text",
       "dashboard": {
         "allowed_widgets": [
           "status-list",
-          "stat"
+          "stat",
+          "external-widget"
         ],
         "default_widget": "status-list"
       }
@@ -306,7 +345,8 @@
       "dashboard": {
         "allowed_widgets": [
           "stat",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "gauge"
       }
@@ -317,18 +357,61 @@
       "dashboard": {
         "allowed_widgets": [
           "stat",
-          "gauge"
+          "gauge",
+          "external-widget"
         ],
         "default_widget": "gauge"
+      }
+    },
+    "appliance_state": {
+      "kind": "sensor",
+      "value_kind": "text",
+      "label": "Appliance status",
+      "dashboard": {
+        "allowed_widgets": [
+          "status-list",
+          "stat",
+          "tile",
+          "external-widget"
+        ],
+        "default_widget": "status-list"
+      }
+    },
+    "remaining_minutes": {
+      "kind": "sensor",
+      "value_kind": "numeric",
+      "label": "Time left",
+      "unit": "min",
+      "dashboard": {
+        "allowed_widgets": [
+          "status-list",
+          "stat",
+          "external-widget"
+        ],
+        "default_widget": "stat"
+      }
+    },
+    "cycle_count": {
+      "kind": "sensor",
+      "value_kind": "numeric",
+      "label": "Cycles",
+      "dashboard": {
+        "allowed_widgets": [
+          "status-list",
+          "stat",
+          "external-widget"
+        ],
+        "default_widget": "stat"
       }
     },
     "refresh": {
       "kind": "action",
       "dashboard": {
         "allowed_widgets": [
-          "button"
+          "tile",
+          "external-widget"
         ],
-        "default_widget": "button"
+        "default_widget": "tile"
       }
     }
   },
@@ -451,5 +534,74 @@
         "refresh"
       ]
     }
-  ]
+  ],
+  "ui": {
+    "widget_packages": [
+      {
+        "id": "io.piphi.thinqconnect.overview",
+        "name": "LG ThinQ Overview",
+        "version": "0.1.7",
+        "entry": "/widgets/thinqconnect-overview/dist/widget.js",
+        "runtime": "prebuilt_bundle",
+        "host_bridge": {
+          "protocol": "piphi.widget.host",
+          "version": "1",
+          "events": [
+            "ready",
+            "resize"
+          ]
+        },
+        "binding_modes": [
+          "read"
+        ],
+        "value_kinds": [
+          "boolean",
+          "numeric",
+          "text"
+        ],
+        "capability_requirements": [
+          "appliance_state",
+          "mode",
+          "remaining_minutes",
+          "cycle_count",
+          "door",
+          "temperature",
+          "target_temperature",
+          "humidity",
+          "pm2",
+          "fan_speed",
+          "power",
+          "battery",
+          "filter_life"
+        ],
+        "layout": {
+          "transparent": true,
+          "min_height": 144,
+          "default_height": 160,
+          "max_height": 196
+        },
+        "interaction_targets": [
+          {
+            "id": "appliance-details",
+            "label": "LG appliance details",
+            "kind": "card",
+            "allowed_actions": [
+              "more-info"
+            ],
+            "default_action": "more-info"
+          }
+        ],
+        "security": {
+          "permissions": [],
+          "allowed_commands": [],
+          "sandbox": [
+            "allow-scripts"
+          ],
+          "csp": {
+            "connect_src": []
+          }
+        }
+      }
+    ]
+  }
 }

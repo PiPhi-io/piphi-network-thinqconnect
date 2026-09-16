@@ -13,8 +13,14 @@ async def get_ui_schema() -> dict:
         "title": "LG ThinQ Configuration",
         "description": "Configure an LG ThinQ device discovered from your ThinQ account.",
         "type": "object",
-        "required": ["device_id", "device_type", "access_token", "country_code"],
+        "required": ["device_id", "device_type", "country_code"],
         "properties": {
+            "simulation_mode": {
+                "type": "boolean",
+                "title": "Use simulator",
+                "description": "Discover deterministic washer, refrigerator, and air-conditioner fixtures without an LG account.",
+                "default": False,
+            },
             "device_id": {
                 "type": "string",
                 "title": "Device ID",

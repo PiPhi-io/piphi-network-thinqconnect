@@ -73,6 +73,20 @@ ThinQ onboarding is account-based. Discovery requires:
 Users discover devices from their ThinQ account first, then save one PiPhi
 runtime config per selected device.
 
+For local development, enable `simulation_mode` instead of supplying an LG
+token. Discovery then returns representative washer, refrigerator, and air
+conditioner fixtures. The fixtures pass through the same normalization,
+entity, telemetry, command, and dashboard paths used by live ThinQ devices.
+
+## Dashboard experience scope
+
+The first dashboard phase intentionally ships one reusable **LG ThinQ
+overview** experience instead of separate cards for every appliance model. It
+adapts to negotiated entity capabilities and relies on Core's semantic theme
+surface for light and dark appearance. A dedicated experience should only be
+added when an appliance workflow cannot be expressed cleanly by the overview
+or Core's canonical controls.
+
 ## Polling behavior
 
 Configured devices are polled on a background loop. The default polling

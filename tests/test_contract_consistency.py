@@ -88,3 +88,22 @@ def test_behavior_capabilities_exist_in_manifest() -> None:
 
     assert behavior_capabilities
     assert behavior_capabilities.issubset(manifest_capabilities)
+
+
+def test_integration_and_widget_manifests_share_the_interaction_contract() -> None:
+    integration_manifest = _load_json("src/manifest.json")
+    widget_manifest = _load_json(
+        "widgets/thinqconnect-overview/widget.manifest.json"
+    )
+    advertised_widget = integration_manifest["ui"]["widget_packages"][0]
+
+    assert advertised_widget["version"] == widget_manifest["version"]
+    assert advertised_widget["layout"] == {
+        **widget_manifest["layout"],
+        "transparent": True,
+    }
+    assert advertised_widget["security"] == widget_manifest["security"]
+    assert (
+        advertised_widget["interaction_targets"]
+        == widget_manifest["interaction_targets"]
+    )

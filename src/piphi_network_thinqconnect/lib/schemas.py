@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from piphi_runtime_kit_python import RuntimeConfig
 
 
@@ -11,20 +11,28 @@ class ThinQDeviceConfig(RuntimeConfig):
     device_id: str
     device_name: str | None = None
     device_type: str
-    access_token: str
+    access_token: str = ""
     country_code: str
     client_id: str | None = None
     alias: str | None = None
     poll_interval_seconds: int | None = 60
     integration_id: str | None = None
     container_id: str | None = None
+    simulation_mode: bool = False
     model_config = ConfigDict(extra="allow")
+
+    @model_validator(mode="after")
+    def require_live_credentials(self) -> "ThinQDeviceConfig":
+        if not self.simulation_mode and not self.access_token.strip():
+            raise ValueError("access_token is required unless simulation_mode is enabled")
+        return self
 
 
 class ThinQDiscoveryRequest(BaseModel):
-    access_token: str
-    country_code: str
+    access_token: str = ""
+    country_code: str = "US"
     client_id: str | None = None
+    simulation_mode: bool = False
 
 
 class DeconfigureConfig(BaseModel):

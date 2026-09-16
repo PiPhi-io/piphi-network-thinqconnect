@@ -33,6 +33,7 @@ from piphi_network_thinqconnect.lib.schemas import (
     RuntimeConfigSyncResponse,
     ThinQDeviceConfig,
 )
+from piphi_network_thinqconnect.lib.simulator import SimulatedThinQClient
 from piphi_network_thinqconnect.lib.store import (
     CORE_BASE_URL,
     INTEGRATION_ID,
@@ -52,6 +53,7 @@ TELEMETRY_REQUEST_TIMEOUT_SECONDS = 3.0
 EVENT_REQUEST_TIMEOUT_SECONDS = 3.0
 runtime_context = get_runtime_context()
 thinq_client = ThinQApiClient()
+simulator_client = SimulatedThinQClient()
 telemetry_client.core_base_url = CORE_BASE_URL
 telemetry_client.timeout_seconds = TELEMETRY_REQUEST_TIMEOUT_SECONDS
 event_client.core_base_url = CORE_BASE_URL
@@ -125,12 +127,54 @@ def resolve_entry_id(device_or_config_id: str) -> str | None:
 
 def _build_telemetry_metrics(normalized_state: dict[str, Any]) -> dict[str, Any]:
     metrics = normalized_state.get("metrics")
-    return metrics if isinstance(metrics, dict) else {}
+    if not isinstance(metrics, dict):
+        return {}
+    result = dict(metrics)
+    aliases = {
+        "temperature": "current_temperature_c",
+        "target_temperature": "target_temperature_c",
+        "fan_speed": "wind_strength",
+        "battery": "battery_percent",
+        "filter_life": "filter_remain_percent",
+        "power": "power_w",
+        "brightness": "display_light",
+    }
+    for capability_id, metric_id in aliases.items():
+        if metric_id in metrics:
+            result[capability_id] = metrics[metric_id]
+    if "filter_life" not in result:
+        filter_values = [
+            value for key, value in metrics.items()
+            if key.endswith("_filter_remain_percent")
+        ]
+        if filter_values:
+            result["filter_life"] = min(filter_values)
+    summary = normalized_state.get("summary")
+    if isinstance(summary, dict):
+        if summary.get("mode") is not None:
+            result["mode"] = summary["mode"]
+        if summary.get("is_on") is not None:
+            result["switch"] = summary["is_on"]
+    return result
 
 
 def _build_telemetry_units(normalized_state: dict[str, Any]) -> dict[str, Any]:
     units = normalized_state.get("units")
-    return units if isinstance(units, dict) else {}
+    if not isinstance(units, dict):
+        return {}
+    result = dict(units)
+    aliases = {
+        "temperature": "current_temperature_c",
+        "target_temperature": "target_temperature_c",
+        "battery": "battery_percent",
+        "filter_life": "filter_remain_percent",
+        "power": "power_w",
+    }
+    for capability_id, metric_id in aliases.items():
+        if metric_id in units:
+            result[capability_id] = units[metric_id]
+    result.setdefault("fan_speed", "level")
+    return result
 
 
 async def fetch_and_store_state(*, device_id: str) -> dict[str, Any]:
@@ -143,7 +187,8 @@ async def fetch_and_store_state(*, device_id: str) -> dict[str, Any]:
         raise HTTPException(status_code=404, detail=f"Device '{device_id}' is not configured")
 
     try:
-        snapshot = await thinq_client.fetch_device_snapshot(
+        upstream_client = simulator_client if device.get("simulation_mode") else thinq_client
+        snapshot = await upstream_client.fetch_device_snapshot(
             access_token=device["access_token"],
             country_code=device["country_code"],
             device_id=device["device_id"],
@@ -260,7 +305,8 @@ async def run_command_for_device(
         effective_params[target_key] = value
 
     try:
-        result = await thinq_client.execute_device_command(
+        upstream_client = simulator_client if device.get("simulation_mode") else thinq_client
+        result = await upstream_client.execute_device_command(
             access_token=device["access_token"],
             country_code=device["country_code"],
             device_id=device["device_id"],
@@ -348,6 +394,7 @@ async def apply_device_config(payload: ThinQDeviceConfig) -> dict[str, Any]:
             "client_id": resolved_client_id,
             "alias": payload.alias,
             "integration_id": payload.integration_id or INTEGRATION_ID,
+            "simulation_mode": payload.simulation_mode,
             "poll_interval_seconds": payload.poll_interval_seconds or POLL_INTERVAL_SECONDS,
         },
     )

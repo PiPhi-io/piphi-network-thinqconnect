@@ -616,6 +616,34 @@ def _map_turn_command(
                 "args_schema": {},
             }
         )
+    if "OFF" in normalized_options:
+        command_map.setdefault(
+            "turn_off",
+            {
+                "control_method": method_id,
+                "control_params": {param_name: normalized_options["OFF"]},
+                "arg_map": {},
+            },
+        )
+        available_commands.append(
+            {
+                "id": "turn_off",
+                "label": "Turn Off",
+                "kind": "secondary",
+                "description": "Turn the device off.",
+                "args_schema": {},
+            }
+        )
+    if "turn_on" in command_map or "turn_off" in command_map:
+        available_commands.append(
+            {
+                "id": "toggle",
+                "label": "Toggle",
+                "kind": "primary",
+                "description": "Toggle the device power state using the latest known state.",
+                "args_schema": {},
+            }
+        )
 
 
 def _map_binary_toggle_command(
@@ -695,34 +723,6 @@ def _map_exact_action_command(
         kind="primary" if command_id == "start" else "secondary",
         description=description,
     )
-    if "OFF" in normalized_options:
-        command_map.setdefault(
-            "turn_off",
-            {
-                "control_method": method_id,
-                "control_params": {param_name: normalized_options["OFF"]},
-                "arg_map": {},
-            },
-        )
-        available_commands.append(
-            {
-                "id": "turn_off",
-                "label": "Turn Off",
-                "kind": "secondary",
-                "description": "Turn the device off.",
-                "args_schema": {},
-            }
-        )
-    if "turn_on" in command_map or "turn_off" in command_map:
-        available_commands.append(
-            {
-                "id": "toggle",
-                "label": "Toggle",
-                "kind": "primary",
-                "description": "Toggle the device power state using the latest known state.",
-                "args_schema": {},
-            }
-        )
 
 
 def build_command_catalog(
@@ -1099,30 +1099,30 @@ def derive_entity_type_for_device(device_type: str, device_class: str, capabilit
 def derive_dashboard(device_class: str, capabilities: list[str]) -> dict[str, Any]:
     if "target_temperature" in capabilities:
         return {
-            "allowed_widgets": ["thermostat", "sensor-card", "stat", "line-chart"],
+            "allowed_widgets": ["thermostat", "sensor-card", "stat", "line-chart", "external-widget"],
             "default_widget": "thermostat",
             "recommended_widgets": ["thermostat", "sensor-card"],
         }
     if "brightness" in capabilities:
         return {
-            "allowed_widgets": ["light-card", "tile", "button", "stat"],
+            "allowed_widgets": ["light-card", "tile", "button", "stat", "external-widget"],
             "default_widget": "light-card",
             "recommended_widgets": ["light-card", "tile"],
         }
     if "switch" in capabilities:
         return {
-            "allowed_widgets": ["tile", "button", "status-list", "stat"],
+            "allowed_widgets": ["tile", "button", "status-list", "stat", "external-widget"],
             "default_widget": "tile",
             "recommended_widgets": ["tile", "status-list"],
         }
     if device_class in {"laundry", "refrigeration", "kitchen", "vacuum"}:
         return {
-            "allowed_widgets": ["status-list", "stat", "sensor-card"],
-            "default_widget": "status-list",
-            "recommended_widgets": ["status-list", "stat"],
+            "allowed_widgets": ["external-widget", "status-list", "stat", "sensor-card"],
+            "default_widget": "external-widget",
+            "recommended_widgets": ["external-widget", "status-list"],
         }
     return {
-        "allowed_widgets": ["sensor-card", "status-list", "stat", "line-chart", "gauge"],
+        "allowed_widgets": ["sensor-card", "status-list", "stat", "line-chart", "gauge", "external-widget"],
         "default_widget": "sensor-card",
         "recommended_widgets": ["sensor-card", "status-list"],
     }
@@ -1139,11 +1139,56 @@ def normalize_device_snapshot(
     status = raw_status or {}
     profile_catalog = device_type_catalog(discovered["device_type"])
     metrics, units = _extract_metrics(status)
+    # Publish stable, end-user-oriented metric ids alongside the raw ThinQ
+    # properties so one adaptive card can represent multiple appliance families.
+    job_state = status.get("current_state") or status.get("run_state")
+    if job_state is not None:
+        metrics["appliance_state"] = job_state
+    operating_mode = (
+        status.get("mode")
+        or status.get("current_mode")
+        or status.get("washer_operation_mode")
+    )
+    if operating_mode is not None:
+        metrics["mode"] = operating_mode
+    door_state = status.get("door_state") or status.get("doorState")
+    if door_state is not None:
+        metrics["door"] = door_state
+    if "target_temperature_c" in metrics:
+        metrics["target_temperature"] = metrics["target_temperature_c"]
+        units["target_temperature"] = "°C"
+    filter_value = next(
+        (
+            metrics[key]
+            for key in (
+                "filter_remain_percent",
+                "fresh_air_filter_remain_percent",
+                "water_filter_1_remain_percent",
+            )
+            if key in metrics
+        ),
+        None,
+    )
+    if filter_value is not None:
+        metrics["filter_life"] = filter_value
+        units["filter_life"] = "%"
+    remain_hour = metrics.get("remain_hour")
+    remain_minute = metrics.get("remain_minute")
+    if isinstance(remain_hour, (int, float)) or isinstance(remain_minute, (int, float)):
+        metrics["remaining_minutes"] = int(remain_hour or 0) * 60 + int(remain_minute or 0)
+        units["remaining_minutes"] = "min"
     capabilities = derive_capabilities(
         device_type=discovered["device_type"],
         raw_status=status,
         available_controls=raw_available_controls,
     )
+    if job_state is not None:
+        capabilities.append("appliance_state")
+    if "remaining_minutes" in metrics:
+        capabilities.append("remaining_minutes")
+    if "cycle_count" in metrics:
+        capabilities.append("cycle_count")
+    capabilities = sorted(set(capabilities))
     available_commands, command_map = build_command_catalog(
         device_type=discovered["device_type"],
         available_controls=raw_available_controls,
