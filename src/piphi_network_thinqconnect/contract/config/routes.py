@@ -264,6 +264,14 @@ def start_device_poll_task(*, device_id: str) -> asyncio.Task[Any]:
     )
 
 
+async def _cancel_poll_task(task: asyncio.Task[Any]) -> None:
+    task.cancel()
+    try:
+        await task
+    except asyncio.CancelledError:
+        pass
+
+
 async def trigger_refresh(device_id: str) -> dict[str, Any]:
     return await fetch_and_store_state(device_id=device_id)
 
@@ -532,11 +540,10 @@ async def apply_device_config(payload: ThinQDeviceConfig) -> dict[str, Any]:
     )
 
     await remove_device_config(payload.id)
-    task = start_device_poll_task(device_id=payload.id)
     registry.set(
         payload.id,
         {
-            "task": task,
+            "task": None,
             "config_id": payload.config_id or payload.id,
             "container_id": resolved_container_id,
             "device_id": payload.device_id,
@@ -551,11 +558,27 @@ async def apply_device_config(payload: ThinQDeviceConfig) -> dict[str, Any]:
             "poll_interval_seconds": payload.poll_interval_seconds or POLL_INTERVAL_SECONDS,
         },
     )
+    try:
+        task = start_device_poll_task(device_id=payload.id)
+    except Exception:
+        registry.remove(payload.id)
+        raise
+    device_entry = registry.get(payload.id)
+    if device_entry is None:
+        await _cancel_poll_task(task)
+        raise RuntimeError("Configured ThinQ device disappeared before polling started")
+    device_entry["task"] = task
 
     try:
         await trigger_refresh(payload.id)
     except HTTPException as exc:
         logger.warning("thinq_initial_refresh_failed device_id=%s detail=%s", payload.id, exc.detail)
+    except asyncio.CancelledError:
+        await remove_device_config(payload.id)
+        raise
+    except Exception:
+        await remove_device_config(payload.id)
+        raise
 
     device_entry = registry.get(payload.id) or {}
     schedule_event_send(

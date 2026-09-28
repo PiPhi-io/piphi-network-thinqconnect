@@ -233,14 +233,19 @@ def test_discovery_simulation_needs_no_account_credentials() -> None:
 
 def test_config_apply_sends_telemetry_and_event(mock_core, monkeypatch) -> None:
     reset_runtime_state()
+    poll_task_start_entries = []
 
     async def fake_fetch_device_snapshot(**_kwargs):
         return _ac_snapshot()
 
+    def fake_start_device_poll_task(*, device_id):
+        poll_task_start_entries.append(registry.get(device_id))
+        return _DummyTask()
+
     monkeypatch.setattr(config_module.telemetry_client, "core_base_url", mock_core.base_url)
     monkeypatch.setattr(config_module.event_client, "core_base_url", mock_core.base_url)
     monkeypatch.setattr(config_module.thinq_client, "fetch_device_snapshot", fake_fetch_device_snapshot)
-    monkeypatch.setattr(config_module, "start_device_poll_task", lambda **_kwargs: _DummyTask())
+    monkeypatch.setattr(config_module, "start_device_poll_task", fake_start_device_poll_task)
 
     headers = build_runtime_headers(container_id="runtime-456", internal_token="secret-token")
 
@@ -286,6 +291,171 @@ def test_config_apply_sends_telemetry_and_event(mock_core, monkeypatch) -> None:
     assert telemetry_request.json_body["metrics"]["switch"] is False
     assert telemetry_request.json_body["units"]["temperature"] == "°C"
     assert telemetry_request.json_body["units"]["current_temperature_c"] == "°C"
+    assert len(poll_task_start_entries) == 1
+    assert poll_task_start_entries[0] is not None
+    assert registry.get("cfg-ac-1")["task"].done()
+
+
+def test_config_apply_keeps_real_polling_task_alive_and_cleans_up(
+    mock_core, monkeypatch
+) -> None:
+    reset_runtime_state()
+
+    async def fake_fetch_device_snapshot(**_kwargs):
+        return _ac_snapshot()
+
+    monkeypatch.setattr(config_module.telemetry_client, "core_base_url", mock_core.base_url)
+    monkeypatch.setattr(config_module.event_client, "core_base_url", mock_core.base_url)
+    monkeypatch.setattr(config_module.thinq_client, "fetch_device_snapshot", fake_fetch_device_snapshot)
+    monkeypatch.setattr(config_module, "_poll_interval", lambda _entry: 0.02)
+    headers = build_runtime_headers(container_id="runtime-456", internal_token="secret-token")
+    payload = {
+        "id": "cfg-ac-polling",
+        "config_id": "cfg-ac-polling",
+        "device_id": "device-ac-polling",
+        "device_name": "Polling AC",
+        "device_type": "DEVICE_AIR_CONDITIONER",
+        "access_token": "pat-1",
+        "country_code": "US",
+    }
+
+    with TestClient(app) as client:
+        first = client.post("/config", json=payload, headers=headers)
+        assert first.status_code == 200
+        first_task = registry.get("cfg-ac-polling")["task"]
+        assert not first_task.done()
+        wait_for(lambda: len(mock_core.telemetry_requests) >= 2)
+
+        second = client.post("/config", json=payload, headers=headers)
+        assert second.status_code == 200
+        second_task = registry.get("cfg-ac-polling")["task"]
+        assert second_task is not first_task
+        wait_for(first_task.done)
+        assert first_task.cancelled()
+        assert not second_task.done()
+
+        removed = client.post(
+            "/deconfigure",
+            json={"config": {"id": "cfg-ac-polling"}},
+            headers=headers,
+        )
+        assert removed.status_code == 200
+        wait_for(second_task.done)
+        assert second_task.cancelled()
+
+        shutdown_payload = {**payload, "id": "cfg-shutdown", "config_id": "cfg-shutdown"}
+        assert client.post("/config", json=shutdown_payload, headers=headers).status_code == 200
+        shutdown_task = registry.get("cfg-shutdown")["task"]
+        assert not shutdown_task.done()
+
+    assert shutdown_task.done()
+    assert shutdown_task.cancelled()
+    assert len(mock_core.telemetry_requests) >= 2
+    telemetry_headers = {
+        key.lower(): value for key, value in mock_core.telemetry_requests[-1].headers.items()
+    }
+    assert telemetry_headers["x-container-id"] == "runtime-456"
+    assert telemetry_headers["x-piphi-integration-token"] == "secret-token"
+
+
+def test_config_apply_rolls_back_when_poll_task_cannot_start(monkeypatch) -> None:
+    reset_runtime_state()
+    monkeypatch.setattr(
+        config_module,
+        "start_device_poll_task",
+        lambda **_kwargs: (_ for _ in ()).throw(RuntimeError("poll task failed")),
+    )
+    headers = build_runtime_headers(container_id="runtime-456", internal_token="secret-token")
+
+    with TestClient(app) as client, pytest.raises(RuntimeError, match="poll task failed"):
+        client.post(
+            "/config",
+            json={
+                "id": "cfg-ac-rollback",
+                "config_id": "cfg-ac-rollback",
+                "device_id": "device-ac-rollback",
+                "device_name": "Rollback AC",
+                "device_type": "DEVICE_AIR_CONDITIONER",
+                "access_token": "pat-1",
+                "country_code": "US",
+            },
+            headers=headers,
+        )
+
+    assert registry.get("cfg-ac-rollback") is None
+
+
+def test_config_apply_awaits_poll_task_when_registry_entry_disappears(monkeypatch) -> None:
+    reset_runtime_state()
+    original_start = config_module.start_device_poll_task
+    captured_tasks = []
+
+    def start_then_remove(*, device_id):
+        task = original_start(device_id=device_id)
+        captured_tasks.append(task)
+        registry.remove(device_id)
+        return task
+
+    monkeypatch.setattr(config_module, "start_device_poll_task", start_then_remove)
+    headers = build_runtime_headers(container_id="runtime-456", internal_token="secret-token")
+
+    with TestClient(app) as client, pytest.raises(RuntimeError, match="disappeared"):
+        client.post(
+            "/config",
+            json={
+                "id": "cfg-ac-disappeared",
+                "config_id": "cfg-ac-disappeared",
+                "device_id": "device-ac-disappeared",
+                "device_name": "Disappearing AC",
+                "device_type": "DEVICE_AIR_CONDITIONER",
+                "access_token": "pat-1",
+                "country_code": "US",
+            },
+            headers=headers,
+        )
+
+    assert registry.get("cfg-ac-disappeared") is None
+    assert len(captured_tasks) == 1
+    assert captured_tasks[0].done()
+    assert captured_tasks[0].cancelled()
+
+
+def test_config_apply_cleans_up_poll_task_when_initial_refresh_crashes(monkeypatch) -> None:
+    reset_runtime_state()
+    captured_tasks = []
+    original_start = config_module.start_device_poll_task
+
+    def capture_task(*, device_id):
+        task = original_start(device_id=device_id)
+        captured_tasks.append(task)
+        return task
+
+    async def crash_refresh(_device_id):
+        raise RuntimeError("unexpected refresh failure")
+
+    monkeypatch.setattr(config_module, "start_device_poll_task", capture_task)
+    monkeypatch.setattr(config_module, "trigger_refresh", crash_refresh)
+    headers = build_runtime_headers(container_id="runtime-456", internal_token="secret-token")
+
+    with TestClient(app) as client, pytest.raises(RuntimeError, match="unexpected refresh failure"):
+        client.post(
+            "/config",
+            json={
+                "id": "cfg-ac-refresh-crash",
+                "config_id": "cfg-ac-refresh-crash",
+                "device_id": "device-ac-refresh-crash",
+                "device_name": "Crashing AC",
+                "device_type": "DEVICE_AIR_CONDITIONER",
+                "access_token": "pat-1",
+                "country_code": "US",
+            },
+            headers=headers,
+        )
+
+    assert registry.get("cfg-ac-refresh-crash") is None
+    assert len(captured_tasks) == 1
+    assert captured_tasks[0].done()
+    assert captured_tasks[0].cancelled()
 
 
 def test_runtime_auth_bootstrap_rejects_takeover_and_protects_deconfigure(
