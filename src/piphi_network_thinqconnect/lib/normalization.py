@@ -479,8 +479,18 @@ def _coerce_param_spec(name: Any, raw_spec: Any) -> dict[str, Any]:
     maximum = raw_spec.get("maximum")
     if maximum is None:
         maximum = raw_spec.get("max")
+    resolved_type = raw_spec.get("type")
+    if not resolved_type and options:
+        if all(isinstance(option, bool) for option in options):
+            resolved_type = "boolean"
+        elif all(isinstance(option, int) and not isinstance(option, bool) for option in options):
+            resolved_type = "integer"
+        elif all(isinstance(option, (int, float)) and not isinstance(option, bool) for option in options):
+            resolved_type = "number"
+    if not resolved_type:
+        resolved_type = "number" if isinstance(raw_spec.get("default"), (int, float)) else "string"
     return {
-        "type": raw_spec.get("type") or ("number" if isinstance(raw_spec.get("default"), (int, float)) else "string"),
+        "type": resolved_type,
         "label": raw_spec.get("label") or str(name).replace("_", " ").title(),
         "required": bool(raw_spec.get("required", False)),
         "default": raw_spec.get("default"),
@@ -863,7 +873,7 @@ def build_command_catalog(
                         "description": "Set fan or wind strength when supported by this ThinQ profile.",
                         "args_schema": {
                             "speed": {
-                                "type": "string",
+                                "type": spec.get("type") or "string",
                                 "label": "Speed",
                                 "required": True,
                                 "options": spec.get("options") or [],

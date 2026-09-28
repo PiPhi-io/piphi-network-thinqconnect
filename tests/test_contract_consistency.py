@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import json
+import tomllib
 from pathlib import Path
 
-from piphi_network_thinqconnect.lib.normalization import DEVICE_TYPE_CATALOG, stable_client_id
+from piphi_network_thinqconnect import __version__
 from piphi_network_thinqconnect.contract.command import router as command_module
-
+from piphi_network_thinqconnect.lib.normalization import (
+    DEVICE_TYPE_CATALOG,
+    stable_client_id,
+)
+from piphi_network_thinqconnect.lib.store import INTEGRATION_VERSION
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -90,6 +95,39 @@ def test_behavior_capabilities_exist_in_manifest() -> None:
     assert behavior_capabilities.issubset(manifest_capabilities)
 
 
+def test_temperature_behaviors_use_correct_state_fields_operators_and_bounds() -> None:
+    behaviors = _load_json("src/behaviors.json")
+
+    for device in behaviors.get("devices", []):
+        for condition in device.get("conditions", []):
+            condition_id = condition.get("id")
+            if condition_id not in {
+                "temperature_above",
+                "temperature_below",
+                "target_temperature_above",
+                "target_temperature_below",
+            }:
+                continue
+            expected_field = (
+                "target_temperature"
+                if condition_id.startswith("target_temperature")
+                else "temperature"
+            )
+            expected_operator = "<" if condition_id.endswith("below") else ">"
+            assert condition["runtime"]["field"] == expected_field
+            assert condition["runtime"]["operator"] == expected_operator
+
+        for action in device.get("actions", []):
+            if action.get("id") != "set_target_temperature":
+                continue
+            temperature = next(
+                param for param in action["params"] if param["name"] == "temperature"
+            )
+            assert isinstance(temperature.get("min"), (int, float))
+            assert isinstance(temperature.get("max"), (int, float))
+            assert temperature["min"] < temperature["max"]
+
+
 def test_integration_and_widget_manifests_share_the_interaction_contract() -> None:
     integration_manifest = _load_json("src/manifest.json")
     widget_manifest = _load_json(
@@ -106,4 +144,59 @@ def test_integration_and_widget_manifests_share_the_interaction_contract() -> No
     assert (
         advertised_widget["interaction_targets"]
         == widget_manifest["interaction_targets"]
+    )
+
+
+def test_all_runtime_and_widget_version_projections_match() -> None:
+    integration_manifest = _load_json("src/manifest.json")
+    widget_manifest = _load_json("widgets/thinqconnect-overview/widget.manifest.json")
+    widget_package = _load_json("widgets/thinqconnect-overview/package.json")
+    widget_lock = _load_json("widgets/thinqconnect-overview/package-lock.json")
+    pyproject = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    expected = pyproject["project"]["version"]
+
+    assert integration_manifest["version"] == expected
+    assert integration_manifest["ui"]["widget_packages"][0]["version"] == expected
+    assert widget_manifest["version"] == expected
+    assert widget_package["version"] == expected
+    assert widget_lock["version"] == expected
+    assert widget_lock["packages"][""]["version"] == expected
+    assert __version__ == expected
+    assert INTEGRATION_VERSION == expected
+
+
+def test_release_image_binds_source_manifest_and_behavior_provenance() -> None:
+    dockerfile = (ROOT / "Dockerfile").read_text(encoding="utf-8")
+    workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+    required_labels = {
+        "org.opencontainers.image.version": "RELEASE_VERSION",
+        "org.opencontainers.image.revision": "SOURCE_REVISION",
+        "org.opencontainers.image.source": "SOURCE_REPOSITORY",
+        "io.piphi.manifest.sha256": "MANIFEST_SHA256",
+        "io.piphi.behaviors.sha256": "BEHAVIORS_SHA256",
+    }
+    workflow_labels = {
+        "org.opencontainers.image.version=${{ steps.version.outputs.version }}",
+        "org.opencontainers.image.revision=${{ steps.contracts.outputs.revision }}",
+        "org.opencontainers.image.source=https://github.com/PiPhi-io/piphi-network-thinqconnect",
+        "io.piphi.manifest.sha256=${{ steps.contracts.outputs.manifest_sha256 }}",
+        "io.piphi.behaviors.sha256=${{ steps.contracts.outputs.behaviors_sha256 }}",
+    }
+
+    for label, build_argument in required_labels.items():
+        assert f'ARG {build_argument}=' in dockerfile
+        assert f'{label}="${{{build_argument}}}"' in dockerfile
+    for label in workflow_labels:
+        assert label in workflow
+    assert "revision=$(git rev-parse HEAD)" in workflow
+    assert "manifest_sha256=$(sha256sum src/manifest.json" in workflow
+    assert "behaviors_sha256=$(sha256sum src/behaviors.json" in workflow
+    assert "SOURCE_REVISION=${{ steps.contracts.outputs.revision }}" in workflow
+    assert "MANIFEST_SHA256=${{ steps.contracts.outputs.manifest_sha256 }}" in workflow
+    assert "BEHAVIORS_SHA256=${{ steps.contracts.outputs.behaviors_sha256 }}" in workflow
+    assert workflow.index("Validate bumped release contract") < workflow.index(
+        "Commit release metadata"
+    )
+    assert workflow.index("Publish immutable release revision") < workflow.index(
+        "Build and push image"
     )

@@ -1,15 +1,14 @@
 from __future__ import annotations
 
 import asyncio
+import math
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Request
 from piphi_runtime_kit_python import (
     ConfigSyncCoordinator,
-    EventClient,
     RuntimeConfigApplyResponse,
     RuntimeConfigRemoveResponse,
-    TelemetryClient,
     build_config_apply_response,
     build_config_remove_response,
     create_tracked_task,
@@ -17,16 +16,19 @@ from piphi_runtime_kit_python import (
     format_runtime_auth_sync_log,
     schedule_event_delivery,
     schedule_telemetry_delivery,
+)
+from piphi_runtime_kit_python import (
     shutdown_background_tasks as shutdown_runtime_background_tasks,
 )
-from piphi_runtime_kit_python.fastapi import (
-    get_payload_container_id,
-    sync_runtime_auth_from_fastapi_payload,
-)
+from piphi_runtime_kit_python.fastapi import get_payload_container_id
 
 from piphi_network_thinqconnect.lib.client import ThinQApiClient, ThinQClientError
 from piphi_network_thinqconnect.lib.logging import logger
-from piphi_network_thinqconnect.lib.normalization import normalize_device_snapshot, stable_client_id
+from piphi_network_thinqconnect.lib.normalization import (
+    normalize_device_snapshot,
+    stable_client_id,
+)
+from piphi_network_thinqconnect.lib.runtime_auth import authorize_runtime_request
 from piphi_network_thinqconnect.lib.schemas import (
     DeconfigureConfig,
     RuntimeConfigSnapshot,
@@ -38,14 +40,12 @@ from piphi_network_thinqconnect.lib.store import (
     CORE_BASE_URL,
     INTEGRATION_ID,
     append_event,
-    config_sync,
     event_client,
     get_runtime_context,
     registry,
     telemetry_client,
     update_device_state,
 )
-
 
 config_router = APIRouter(tags=["config"])
 POLL_INTERVAL_SECONDS = 60
@@ -62,7 +62,11 @@ config_sync = ConfigSyncCoordinator(process_state=runtime_context.process_state)
 
 
 def _sync_runtime_auth_from_request(request: Request, payload: Any | None = None) -> None:
-    parsed_headers = sync_runtime_auth_from_fastapi_payload(runtime_context, request, payload)
+    parsed_headers = authorize_runtime_request(
+        request,
+        allow_bootstrap=True,
+        payload_container_id=get_payload_container_id(payload),
+    )
     logger.info(
         format_runtime_auth_sync_log(
             parsed_headers,
@@ -247,7 +251,7 @@ async def poll_device_state(*, device_id: str) -> None:
             logger.info("state_poll_success device_id=%s", device_id)
         except asyncio.CancelledError:
             raise
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - keep polling other devices
             logger.warning("state_poll_error device_id=%s error=%s", device_id, exc)
 
         await asyncio.sleep(_poll_interval(entry))
@@ -262,6 +266,149 @@ def start_device_poll_task(*, device_id: str) -> asyncio.Task[Any]:
 
 async def trigger_refresh(device_id: str) -> dict[str, Any]:
     return await fetch_and_store_state(device_id=device_id)
+
+
+def _command_args_schema(latest_state: dict[str, Any], command: str) -> dict[str, Any]:
+    available_commands = latest_state.get("available_commands")
+    if not isinstance(available_commands, list):
+        return {}
+    definition = next(
+        (
+            candidate
+            for candidate in available_commands
+            if isinstance(candidate, dict) and candidate.get("id") == command
+        ),
+        None,
+    )
+    if not isinstance(definition, dict):
+        return {}
+    schema = definition.get("args_schema")
+    return schema if isinstance(schema, dict) else {}
+
+
+def _validate_command_args(
+    *,
+    device_id: str,
+    command: str,
+    args: dict[str, Any],
+    schema: dict[str, Any],
+) -> None:
+    if command == "set_target_temperature":
+        temperature_spec = schema.get("temperature")
+        valid_contract = (
+            isinstance(temperature_spec, dict)
+            and str(temperature_spec.get("type") or "").casefold()
+            in {"number", "integer"}
+            and temperature_spec.get("required") is True
+        )
+        minimum = temperature_spec.get("minimum") if isinstance(temperature_spec, dict) else None
+        maximum = temperature_spec.get("maximum") if isinstance(temperature_spec, dict) else None
+        valid_contract = bool(
+            valid_contract
+            and not isinstance(minimum, bool)
+            and isinstance(minimum, (int, float))
+            and not isinstance(maximum, bool)
+            and isinstance(maximum, (int, float))
+        )
+        try:
+            valid_contract = bool(
+                valid_contract
+                and math.isfinite(float(minimum))
+                and math.isfinite(float(maximum))
+                and float(minimum) <= float(maximum)
+            )
+        except (OverflowError, TypeError, ValueError):
+            valid_contract = False
+        if not valid_contract:
+            raise HTTPException(
+                status_code=400,
+                detail=(
+                    f"Command '{command}' on device '{device_id}' is unavailable "
+                    "because its negotiated safety contract is invalid"
+                ),
+            )
+
+    unknown = sorted(set(args) - set(schema))
+    if unknown:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unknown argument(s) for '{command}': {', '.join(unknown)}",
+        )
+
+    missing = sorted(
+        name
+        for name, spec in schema.items()
+        if isinstance(spec, dict) and spec.get("required") is True and name not in args
+    )
+    if missing:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Missing required argument(s) for '{command}': {', '.join(missing)}",
+        )
+
+    for name, value in args.items():
+        spec = schema.get(name)
+        if not isinstance(spec, dict):
+            continue
+        options = spec.get("options")
+        if isinstance(options, list) and options and value not in options:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Argument '{name}' for '{command}' must be one of {options}",
+            )
+
+        value_type = str(spec.get("type") or "").casefold()
+        if value_type in {"number", "integer"}:
+            if isinstance(value, bool) or not isinstance(value, (int, float)):
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Argument '{name}' for '{command}' must be a {value_type}",
+                )
+            try:
+                numeric_value = float(value)
+            except (OverflowError, ValueError):
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Argument '{name}' for '{command}' must be finite",
+                ) from None
+            if not math.isfinite(numeric_value):
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Argument '{name}' for '{command}' must be finite",
+                )
+            if value_type == "integer" and not numeric_value.is_integer():
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Argument '{name}' for '{command}' must be an integer",
+                )
+            minimum = spec.get("minimum")
+            maximum = spec.get("maximum")
+            if isinstance(minimum, (int, float)) and numeric_value < float(minimum):
+                raise HTTPException(
+                    status_code=400,
+                    detail=(
+                        f"Argument '{name}' for '{command}' on device '{device_id}' "
+                        f"must be at least {minimum}"
+                    ),
+                )
+            if isinstance(maximum, (int, float)) and numeric_value > float(maximum):
+                raise HTTPException(
+                    status_code=400,
+                    detail=(
+                        f"Argument '{name}' for '{command}' on device '{device_id}' "
+                        f"must be at most {maximum}"
+                    ),
+                )
+        elif value_type == "boolean" and not isinstance(value, bool):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Argument '{name}' for '{command}' must be a boolean",
+            )
+        elif value_type == "string" and not isinstance(value, str):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Argument '{name}' for '{command}' must be a string",
+            )
 
 
 async def run_command_for_device(
@@ -299,6 +446,12 @@ async def run_command_for_device(
     arg_map = mapping.get("arg_map") if isinstance(mapping.get("arg_map"), dict) else {}
     effective_params = dict(base_params)
     args = args or {}
+    _validate_command_args(
+        device_id=device_id,
+        command=command,
+        args=args,
+        schema=_command_args_schema(latest_state, command),
+    )
 
     for user_key, value in args.items():
         target_key = str(arg_map.get(user_key) or user_key)
@@ -465,7 +618,11 @@ async def sync_config(payload: RuntimeConfigSnapshot, request: Request) -> Runti
 
 
 @config_router.post("/deconfigure")
-async def deconfigure_device(payload: DeconfigureConfig) -> RuntimeConfigRemoveResponse:
+async def deconfigure_device(
+    payload: DeconfigureConfig,
+    request: Request,
+) -> RuntimeConfigRemoveResponse:
+    authorize_runtime_request(request)
     device_id = payload.config.get("id")
     if device_id is None:
         raise HTTPException(status_code=400, detail="Missing config.id")

@@ -9,10 +9,11 @@ from piphi_runtime_kit_python import (
     resolve_core_base_url,
 )
 
+from piphi_network_thinqconnect import __version__
 
 INTEGRATION_ID = "lg-thinq-connect-api"
 INTEGRATION_NAME = "LG ThinQ Connect"
-INTEGRATION_VERSION = "0.1.0"
+INTEGRATION_VERSION = __version__
 CORE_BASE_URL = resolve_core_base_url("http://127.0.0.1:31419")
 
 starter = create_runtime_starter(

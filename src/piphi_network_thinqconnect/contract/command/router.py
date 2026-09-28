@@ -13,10 +13,13 @@ from piphi_runtime_kit_python import (
 )
 from piphi_runtime_kit_python.fastapi import dispatch_automation_action_from_fastapi
 
-from piphi_network_thinqconnect.contract.config.routes import run_command_for_device, trigger_refresh
+from piphi_network_thinqconnect.contract.config.routes import (
+    run_command_for_device,
+    trigger_refresh,
+)
+from piphi_network_thinqconnect.lib.runtime_auth import authorize_runtime_request
 from piphi_network_thinqconnect.lib.schemas import CommandRequest
 from piphi_network_thinqconnect.lib.store import get_primary_device
-
 
 router = APIRouter(tags=["command"])
 AUTOMATION_COMMANDS = frozenset(
@@ -107,6 +110,7 @@ async def execute_command(
     payload: CommandRequest,
     request: Request,
 ) -> dict[str, Any]:
+    authorize_runtime_request(request)
     command = (payload.command or "").strip()
     if not command:
         raise HTTPException(status_code=400, detail="Missing command")
