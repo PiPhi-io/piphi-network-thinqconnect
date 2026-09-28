@@ -200,3 +200,27 @@ def test_release_image_binds_source_manifest_and_behavior_provenance() -> None:
     assert workflow.index("Publish immutable release revision") < workflow.index(
         "Build and push image"
     )
+
+
+def test_release_workflow_can_publish_an_existing_tag_without_mutating_source() -> None:
+    workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+
+    assert "existing_tag:" in workflow
+    assert "permissions: {}" in workflow
+    assert "preflight:" in workflow
+    assert "contents: read" in workflow
+    assert "Require default branch dispatch" in workflow
+    assert '[[ "${GITHUB_REF_NAME}" == "${{ github.event.repository.default_branch }}" ]]' in workflow
+    assert '[[ "${EXISTING_TAG}" =~ ^v(0|[1-9][0-9]*)' in workflow
+    assert 'git fetch --no-tags origin "refs/tags/${EXISTING_TAG}"' in workflow
+    assert 'TAG_COMMIT=$(git rev-parse "FETCH_HEAD^{commit}")' in workflow
+    assert "needs: preflight" in workflow
+    assert "ref: ${{ needs.preflight.outputs.tag_commit || github.ref }}" in workflow
+    assert '[[ "${EXISTING_TAG}" == "${TAG}" ]]' in workflow
+    assert '[[ "$(git rev-parse HEAD)" == "${TAG_COMMIT}" ]]' in workflow
+    assert '[[ "$(git rev-parse "FETCH_HEAD^{commit}")" == "${TAG_COMMIT}" ]]' in workflow
+    assert workflow.count("if: ${{ needs.preflight.outputs.existing_tag == '' }}") == 2
+    assert workflow.index("Resolve existing release tag") < workflow.index("Install and test")
+    assert workflow.index("Validate bumped release contract") < workflow.index(
+        "Build and push image"
+    )

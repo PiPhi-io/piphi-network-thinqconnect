@@ -19,15 +19,17 @@ on:
         description: Explicit version when release_type is custom
         required: false
         type: string
+      existing_tag:
+        description: Publish an existing vX.Y.Z tag without changing source or tags
+        required: false
+        type: string
       push_latest:
         description: Also publish latest for stable releases
         required: true
         default: true
         type: boolean
 
-permissions:
-  contents: write
-  id-token: write
+permissions: {}
 
 concurrency:
   group: thinq-connect-release-${{ github.event.repository.full_name }}
@@ -38,20 +40,53 @@ env:
   DOCKERHUB_OIDC_CONNECTIONID: ${{ vars.DOCKERHUB_OIDC_CONNECTIONID }}
 
 jobs:
-  release:
+  preflight:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      existing_tag: ${{ steps.existing.outputs.tag }}
+      tag_commit: ${{ steps.existing.outputs.commit }}
+    steps:
+      - name: Check out trusted default branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Require default branch dispatch
+        run: |
+          [[ "${GITHUB_REF_NAME}" == "${{ github.event.repository.default_branch }}" ]] || { echo "Releases must run from the default branch." >&2; exit 1; }
+
+      - name: Resolve existing release tag
+        id: existing
+        env:
+          EXISTING_TAG: ${{ inputs.existing_tag }}
+        run: |
+          echo "tag=" >> "$GITHUB_OUTPUT"
+          echo "commit=" >> "$GITHUB_OUTPUT"
+          if [[ -z "${EXISTING_TAG}" ]]; then
+            exit 0
+          fi
+          [[ "${EXISTING_TAG}" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || { echo "existing_tag must be a stable semantic-version tag" >&2; exit 1; }
+          git fetch --no-tags origin "refs/tags/${EXISTING_TAG}"
+          TAG_COMMIT=$(git rev-parse "FETCH_HEAD^{commit}")
+          [[ "${TAG_COMMIT}" =~ ^[0-9a-f]{40}$ ]] || { echo "existing_tag did not resolve to a commit" >&2; exit 1; }
+          echo "tag=${EXISTING_TAG}" >> "$GITHUB_OUTPUT"
+          echo "commit=${TAG_COMMIT}" >> "$GITHUB_OUTPUT"
+
+  release:
+    needs: preflight
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Require default branch
-        run: |
-          if [[ "${GITHUB_REF_NAME}" != "${{ github.event.repository.default_branch }}" ]]; then
-            echo "Releases must run from the default branch." >&2
-            exit 1
-          fi
+          ref: ${{ needs.preflight.outputs.tag_commit || github.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -69,8 +104,12 @@ jobs:
 
       - name: Resolve release version
         id: version
+        env:
+          EXISTING_TAG: ${{ needs.preflight.outputs.existing_tag }}
         run: |
-          if [[ "${{ inputs.release_type }}" == "custom" ]]; then
+          if [[ -n "${EXISTING_TAG}" ]]; then
+            VERSION=$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')
+          elif [[ "${{ inputs.release_type }}" == "custom" ]]; then
             [[ -n "${{ inputs.custom_version }}" ]] || { echo "custom_version is required" >&2; exit 1; }
             VERSION=$(python scripts/release.py --set-version "${{ inputs.custom_version }}" --docker-image "${RELEASE_IMAGE}")
           else
@@ -86,16 +125,27 @@ jobs:
           pytest
 
       - name: Validate release policy
+        env:
+          EXISTING_TAG: ${{ needs.preflight.outputs.existing_tag }}
+          TAG_COMMIT: ${{ needs.preflight.outputs.tag_commit }}
         run: |
           if [[ "${{ inputs.push_latest }}" == "true" && "${{ steps.version.outputs.stable }}" != "true" ]]; then
             echo "latest cannot point at a prerelease" >&2
             exit 1
           fi
           TAG="v${{ steps.version.outputs.version }}"
-          ! git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1 || { echo "$TAG already exists" >&2; exit 1; }
+          if [[ -n "${EXISTING_TAG}" ]]; then
+            [[ "${EXISTING_TAG}" == "${TAG}" ]] || { echo "${EXISTING_TAG} does not match package version ${{ steps.version.outputs.version }}" >&2; exit 1; }
+            [[ "$(git rev-parse HEAD)" == "${TAG_COMMIT}" ]] || { echo "Checked-out source does not match resolved ${EXISTING_TAG}" >&2; exit 1; }
+            git fetch --no-tags origin "refs/tags/${EXISTING_TAG}"
+            [[ "$(git rev-parse "FETCH_HEAD^{commit}")" == "${TAG_COMMIT}" ]] || { echo "${EXISTING_TAG} moved after preflight" >&2; exit 1; }
+          else
+            ! git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1 || { echo "$TAG already exists" >&2; exit 1; }
+          fi
           [[ -n "${DOCKERHUB_OIDC_CONNECTIONID}" ]] || { echo "Docker Hub OIDC connection ID is missing" >&2; exit 1; }
 
       - name: Commit release metadata
+        if: ${{ needs.preflight.outputs.existing_tag == '' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -116,6 +166,7 @@ jobs:
           echo "behaviors_sha256=$(sha256sum src/behaviors.json | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
 
       - name: Publish immutable release revision
+        if: ${{ needs.preflight.outputs.existing_tag == '' }}
         run: |
           git push origin HEAD:${GITHUB_REF_NAME}
           git push origin "v${{ steps.version.outputs.version }}"
