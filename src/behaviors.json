@@ -95,7 +95,7 @@
           "runtime": {
             "source": "state",
             "field": "temperature",
-            "operator": ">"
+            "operator": "<"
           },
           "freshness": {
             "maxAgeSeconds": 300,
@@ -128,7 +128,7 @@
           ],
           "runtime": {
             "source": "state",
-            "field": "temperature",
+            "field": "target_temperature",
             "operator": ">"
           },
           "freshness": {
@@ -162,8 +162,8 @@
           ],
           "runtime": {
             "source": "state",
-            "field": "temperature",
-            "operator": ">"
+            "field": "target_temperature",
+            "operator": "<"
           },
           "freshness": {
             "maxAgeSeconds": 300,
@@ -650,6 +650,8 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
+              "min": -50,
+              "max": 100,
               "unit": "\u00b0C"
             }
           ],
@@ -1133,6 +1135,8 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
+              "min": -50,
+              "max": 100,
               "unit": "\u00b0C"
             }
           ],
@@ -1146,7 +1150,7 @@
           ],
           "runtime": {
             "source": "state",
-            "field": "temperature",
+            "field": "target_temperature",
             "operator": ">"
           },
           "freshness": {
@@ -1167,6 +1171,8 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
+              "min": -50,
+              "max": 100,
               "unit": "\u00b0C"
             }
           ],
@@ -1180,8 +1186,8 @@
           ],
           "runtime": {
             "source": "state",
-            "field": "temperature",
-            "operator": ">"
+            "field": "target_temperature",
+            "operator": "<"
           },
           "freshness": {
             "maxAgeSeconds": 300,
@@ -1342,6 +1348,8 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
+              "min": -50,
+              "max": 100,
               "unit": "\u00b0C"
             }
           ],
@@ -2783,7 +2791,7 @@
           "runtime": {
             "source": "state",
             "field": "temperature",
-            "operator": ">"
+            "operator": "<"
           },
           "freshness": {
             "maxAgeSeconds": 300,
@@ -2816,7 +2824,7 @@
           ],
           "runtime": {
             "source": "state",
-            "field": "temperature",
+            "field": "target_temperature",
             "operator": ">"
           },
           "freshness": {
@@ -3328,6 +3336,8 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
+              "min": -50,
+              "max": 100,
               "unit": "\u00b0C"
             }
           ],
@@ -4325,8 +4335,8 @@
           ],
           "runtime": {
             "source": "state",
-            "field": "temperature",
-            "operator": ">"
+            "field": "target_temperature",
+            "operator": "<"
           },
           "freshness": {
             "maxAgeSeconds": 300,
@@ -4662,6 +4672,8 @@
               "label": "Target temperature",
               "type": "number",
               "required": true,
+              "min": -50,
+              "max": 100,
               "unit": "\u00b0C"
             }
           ],

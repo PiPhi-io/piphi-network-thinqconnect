@@ -276,9 +276,12 @@ def update_primary_container_images(manifest: dict, *, docker_image: str, versio
     tagged_image = f"{docker_image}:{version}"
 
     top_level_image = manifest.get("image")
-    if isinstance(top_level_image, str) and top_level_image.strip():
-        if image_repository(top_level_image) == docker_image:
-            manifest["image"] = tagged_image
+    if (
+        isinstance(top_level_image, str)
+        and top_level_image.strip()
+        and image_repository(top_level_image) == docker_image
+    ):
+        manifest["image"] = tagged_image
 
     runtime = manifest.get("runtime")
     if not isinstance(runtime, dict):
@@ -293,6 +296,32 @@ def update_primary_container_images(manifest: dict, *, docker_image: str, versio
         image = container.get("image")
         if isinstance(image, str) and image.strip() and image_repository(image) == docker_image:
             container["image"] = tagged_image
+
+
+def update_widget_versions(repo_root: Path, manifest: dict, *, version: str) -> None:
+    ui = manifest.get("ui")
+    packages = ui.get("widget_packages") if isinstance(ui, dict) else None
+    if isinstance(packages, list):
+        for package in packages:
+            if isinstance(package, dict):
+                package["version"] = version
+
+    widget_root = repo_root / "widgets" / "thinqconnect-overview"
+    for filename in ("package.json", "widget.manifest.json"):
+        path = widget_root / filename
+        payload = load_manifest(path)
+        payload["version"] = version
+        dump_manifest(path, payload)
+
+    lock_path = widget_root / "package-lock.json"
+    lock = load_manifest(lock_path)
+    lock["version"] = version
+    packages = lock.get("packages")
+    root_package = packages.get("") if isinstance(packages, dict) else None
+    if not isinstance(root_package, dict):
+        raise TypeError("Widget package-lock.json lacks the root package metadata")
+    root_package["version"] = version
+    dump_manifest(lock_path, lock)
 
 
 def main() -> int:
@@ -324,6 +353,7 @@ def main() -> int:
         return 0
 
     manifest["version"] = target_version
+    update_widget_versions(repo_root, manifest, version=target_version)
     if not args.no_pin_container_image:
         docker_image = args.docker_image or infer_primary_container_repo(manifest)
         if docker_image:
@@ -338,6 +368,6 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except Exception as exc:  # pragma: no cover
+    except Exception as exc:  # noqa: BLE001  # pragma: no cover
         print(f"release.py failed: {exc}", file=sys.stderr)
         raise SystemExit(1)

@@ -543,6 +543,20 @@
         "version": "0.1.7",
         "entry": "/widgets/thinqconnect-overview/dist/widget.js",
         "runtime": "prebuilt_bundle",
+        "certification": {
+          "verified_gates": ["runtime", "persistence", "binding", "states", "responsive", "themes", "accessibility", "save-reload", "performance"],
+          "evidence": {
+            "runtime": ["core-profile:sandbox-host-v1/runtime"],
+            "persistence": ["core-profile:sandbox-host-v1/persistence"],
+            "binding": ["widgets/thinqconnect-overview/test/widget.test.mjs"],
+            "states": ["widgets/thinqconnect-overview/test/widget.test.mjs"],
+            "responsive": ["widgets/thinqconnect-overview/test/widget.test.mjs"],
+            "themes": ["widgets/thinqconnect-overview/test/widget.test.mjs"],
+            "accessibility": ["widgets/thinqconnect-overview/test/widget.test.mjs"],
+            "save-reload": ["core-profile:sandbox-host-v1/save-reload"],
+            "performance": ["core-profile:sandbox-host-v1/performance"]
+          }
+        },
         "host_bridge": {
           "protocol": "piphi.widget.host",
           "version": "1",
