@@ -39,7 +39,7 @@
     }
   ],
   "sdk_compatibility": {
-    "minimum": "0.4.0"
+    "minimum": "0.6.1"
   },
   "conformance": {
     "accessibility": "wcag2.2-aa",
