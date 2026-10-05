@@ -93,6 +93,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: widgets/thinqconnect-overview/package-lock.json
+
       - name: Install and test
         run: |
           python -m pip install --upgrade pip
@@ -123,6 +130,15 @@ jobs:
           python -m pip install -e .[dev]
           python -m json.tool src/manifest.json >/dev/null
           pytest
+
+      - name: Validate dashboard widget
+        working-directory: widgets/thinqconnect-overview
+        run: |
+          npm ci --ignore-scripts
+          npm run build
+          npm test
+          npm run validate
+          npm run conformance
 
       - name: Validate release policy
         env:
@@ -218,6 +234,23 @@ jobs:
             BEHAVIORS_SHA256=${{ steps.contracts.outputs.behaviors_sha256 }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          provenance: mode=max
+          sbom: true
+
+      - name: Package release assets and checksums
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          cp src/manifest.json "thinqconnect-manifest-${VERSION}.json"
+          cp src/behaviors.json "thinqconnect-behaviors-${VERSION}.json"
+          tar -czf "thinqconnect-widget-${VERSION}.tar.gz" \
+            -C widgets/thinqconnect-overview \
+            widget.manifest.json dist previews
+          sha256sum \
+            "thinqconnect-manifest-${VERSION}.json" \
+            "thinqconnect-behaviors-${VERSION}.json" \
+            "thinqconnect-widget-${VERSION}.tar.gz" \
+            > SHA256SUMS
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
@@ -226,3 +259,9 @@ jobs:
           generate_release_notes: true
           prerelease: ${{ steps.version.outputs.stable != 'true' }}
           name: v${{ steps.version.outputs.version }}
+          fail_on_unmatched_files: true
+          files: |
+            thinqconnect-manifest-${{ steps.version.outputs.version }}.json
+            thinqconnect-behaviors-${{ steps.version.outputs.version }}.json
+            thinqconnect-widget-${{ steps.version.outputs.version }}.tar.gz
+            SHA256SUMS

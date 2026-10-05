@@ -55,3 +55,15 @@ def test_release_updates_every_version_projection(tmp_path) -> None:
     assert widget_lock["version"] == "9.8.7"
     assert widget_lock["packages"][""]["version"] == "9.8.7"
     assert widget_manifest["version"] == "9.8.7"
+
+
+def test_release_pipeline_enforces_widget_and_supply_chain_gates() -> None:
+    ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
+    release = (ROOT / ".github" / "workflows" / "release.yml").read_text()
+
+    for command in ("npm run build", "npm test", "npm run validate", "npm run conformance"):
+        assert command in ci
+        assert command in release
+    assert "provenance: mode=max" in release
+    assert "sbom: true" in release
+    assert "SHA256SUMS" in release

@@ -46,6 +46,22 @@ jobs:
           PYTHONPATH: src
         run: pytest
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: current/widgets/thinqconnect-overview/package-lock.json
+
+      - name: Validate dashboard widget
+        working-directory: current/widgets/thinqconnect-overview
+        run: |
+          npm ci --ignore-scripts
+          npm run build
+          npm test
+          npm run validate
+          npm run conformance
+
       - name: Build container image
         working-directory: current
         run: docker build --tag piphi-network-thinqconnect:ci .
