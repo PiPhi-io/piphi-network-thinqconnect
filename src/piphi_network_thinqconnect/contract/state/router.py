@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Query, Request
+from piphi_runtime_kit_python import RuntimeStateService
 
 from piphi_network_thinqconnect.contract.config.routes import (
     resolve_entry_id,
@@ -15,6 +16,15 @@ from piphi_network_thinqconnect.lib.store import (
 )
 
 router = APIRouter(tags=["state"])
+state_service = RuntimeStateService(registry)
+
+
+async def _refresh_all_devices() -> None:
+    for configured_id in registry.ids():
+        await trigger_refresh(configured_id)
+
+
+state_service.provide(_refresh_all_devices, source="LG ThinQ Connect API")
 
 
 def _identity_addressed_entry(entry_id: str) -> tuple[str, dict[str, Any]] | None:
@@ -50,8 +60,17 @@ async def get_state(
     request: Request,
     device_id: str | None = Query(default=None),
     refresh: bool = Query(default=False),
+    refresh_request_id: str | None = Query(default=None),
 ) -> dict:
     authorize_runtime_request(request)
+    if refresh_request_id is not None:
+        try:
+            return await state_service.response(
+                refresh=refresh,
+                refresh_request_id=refresh_request_id,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
     if device_id is None:
         primary_device = get_primary_device()
         if primary_device is None:
